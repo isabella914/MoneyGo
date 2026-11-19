@@ -1,0 +1,3573 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoneyGo | Tu Asesor Financiero Personal</title>
+    <style>
+        /* =========================================================================
+           ESTILOS 100% AUTOCONTENIDOS (SIN DEPENDENCIAS NI CDNs EXTERNOS)
+           ========================================================================= */
+        :root {
+            --emerald-50: #ecfdf5;
+            --emerald-100: #d1fae5;
+            --emerald-500: #10b981;
+            --emerald-600: #059669;
+            --emerald-700: #047857;
+            --emerald-900: #064e3b;
+            --pink-50: #fdf2f8;
+            --pink-100: #fce7f3;
+            --pink-200: #fbcfe8;
+            --pink-400: #f472b6;
+            --pink-500: #ec4899;
+            --pink-600: #db2777;
+            --rose-50: #fff1f2;
+            --rose-500: #f43f5e;
+            --rose-600: #e11d48;
+            --amber-50: #fffbeb;
+            --amber-400: #fbbf24;
+            --amber-500: #f59e0b;
+            --amber-600: #d97706;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-400: #94a3b8;
+            --slate-500: #64748b;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--slate-50);
+            color: var(--slate-800);
+            line-height: 1.5;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .hidden { display: none !important; }
+
+        /* Animaciones Kawaii */
+        @keyframes kawaiiFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            30% { transform: translateY(-5px) rotate(-2deg); }
+            70% { transform: translateY(-2px) rotate(2deg); }
+        }
+        @keyframes coinBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulseDot {
+            0%, 100% { opacity: 0.35; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.15); }
+        }
+        .kawaii-float { animation: kawaiiFloat 3.2s infinite ease-in-out; }
+        .coin-bounce { animation: coinBounce 2s infinite ease-in-out; }
+        .fade-in { animation: fadeIn 0.25s ease-out; }
+
+        /* Notificaciones Toast */
+        #toast-container {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 340px;
+            width: calc(100% - 32px);
+            pointer-events: none;
+        }
+        .toast {
+            padding: 12px 16px;
+            border-radius: 16px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeIn 0.2s ease-out;
+        }
+        .toast.emerald { background: var(--emerald-600); }
+        .toast.rose { background: var(--rose-600); }
+        .toast.pink { background: var(--pink-600); }
+        .toast.slate { background: var(--slate-900); }
+
+        /* =========================================================================
+           PANTALLA 0: REGISTRO / INICIO DE SESIÓN
+           ========================================================================= */
+        #onboarding-screen {
+            min-height: 100vh;
+            width: 100%;
+            overflow-y: auto;
+            padding: 24px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #022c22 0%, #0f172a 55%, #500724 100%);
+        }
+
+        .onboarding-card {
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+            margin: auto;
+        }
+
+        .onboarding-header {
+            background: linear-gradient(135deg, var(--emerald-700), var(--emerald-600));
+            color: #fff;
+            padding: 26px 24px 22px;
+            text-align: center;
+        }
+
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            padding: 4px 14px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .pig-hero-box {
+            width: 96px;
+            height: 96px;
+            margin: 0 auto 12px;
+            background: #fff;
+            border-radius: 26px;
+            border: 4px solid var(--pink-200);
+            padding: 6px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .onboarding-header h1 {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+        }
+
+        .onboarding-header p {
+            font-size: 13px;
+            color: var(--emerald-100);
+            margin-top: 4px;
+        }
+
+        .onboarding-body {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .field-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--slate-500);
+            margin-bottom: 6px;
+        }
+
+        .input-control {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: 1.5px solid var(--slate-200);
+            background: var(--slate-50);
+            color: var(--slate-900);
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .input-control:focus {
+            background: #fff;
+            border-color: var(--emerald-600);
+        }
+
+        .mode-box {
+            background: var(--pink-50);
+            border: 1.5px solid var(--pink-200);
+            border-radius: 18px;
+            padding: 14px;
+        }
+        .mode-box-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--slate-700);
+            margin-bottom: 8px;
+        }
+        .mode-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        .mode-option {
+            padding: 10px;
+            border-radius: 12px;
+            border: 2px solid var(--slate-200);
+            background: rgba(255,255,255,0.85);
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .mode-option.active {
+            border-color: var(--emerald-600);
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(5, 150, 105, 0.12);
+        }
+        .mode-option strong {
+            display: block;
+            font-size: 12px;
+            color: var(--slate-900);
+        }
+        .mode-option.active strong { color: var(--emerald-700); }
+        .mode-option span {
+            font-size: 11px;
+            color: var(--slate-500);
+        }
+
+        .btn-primary-gradient {
+            width: 100%;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(90deg, var(--pink-500), var(--rose-500), var(--emerald-600));
+            color: #fff;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(236, 72, 153, 0.25);
+            transition: transform 0.12s, opacity 0.2s;
+        }
+        .btn-primary-gradient:hover { opacity: 0.95; }
+        .btn-primary-gradient:active { transform: scale(0.98); }
+
+        /* =========================================================================
+           LAYOUT PRINCIPAL (SIDEBAR IZQUIERDO EN PC / BARRA INFERIOR EN MÓVIL)
+           ========================================================================= */
+        #app-shell {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+            flex-direction: column;
+            background: var(--slate-50);
+        }
+
+        .mobile-topbar {
+            background: var(--slate-900);
+            color: #fff;
+            padding: 10px 14px;
+            position: sticky;
+            top: 0;
+            z-index: 60;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.18);
+        }
+
+        .desktop-sidebar {
+            display: none;
+        }
+
+        .mobile-bottombar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 60;
+            background: #ffffff;
+            border-top: 1px solid var(--slate-200);
+            box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.08);
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            padding: 6px 4px calc(6px + env(safe-area-inset-bottom, 0px));
+            gap: 2px;
+        }
+
+        .mobile-nav-btn {
+            border: none;
+            background: transparent;
+            color: var(--slate-500);
+            padding: 6px 2px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.15s;
+            min-width: 0;
+        }
+        .mobile-nav-btn .m-icon {
+            font-size: 18px;
+            line-height: 1.1;
+        }
+        .mobile-nav-btn .m-label {
+            font-size: 10px;
+            font-weight: 800;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+        .mobile-nav-btn.active {
+            background: var(--emerald-50);
+            color: var(--emerald-700);
+        }
+        .mobile-nav-btn.active.ai-tab {
+            background: var(--pink-50);
+            color: var(--pink-600);
+        }
+
+        .brand-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+        .brand-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            background: var(--pink-100);
+            border: 2px solid var(--pink-400);
+            padding: 3px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .brand-title {
+            font-size: 18px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #fff;
+        }
+        .brand-tag {
+            font-size: 10px;
+            background: rgba(236, 72, 153, 0.25);
+            color: var(--pink-200);
+            border: 1px solid rgba(236, 72, 153, 0.4);
+            padding: 1px 7px;
+            border-radius: 999px;
+        }
+        .brand-sub {
+            font-size: 11px;
+            color: var(--slate-400);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .btn-logout {
+            background: rgba(244, 63, 94, 0.18);
+            border: 1px solid rgba(244, 63, 94, 0.35);
+            color: #fecdd3;
+            padding: 7px 11px;
+            border-radius: 12px;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.15s;
+        }
+        .btn-logout:hover {
+            background: var(--rose-600);
+            color: #fff;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1160px;
+            margin: 0 auto;
+            padding: 18px 14px 88px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        @media (min-width: 900px) {
+            #app-shell {
+                flex-direction: row;
+            }
+            .mobile-topbar,
+            .mobile-bottombar {
+                display: none !important;
+            }
+            .desktop-sidebar {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                width: 268px;
+                flex-shrink: 0;
+                background: var(--slate-900);
+                color: #fff;
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                z-index: 50;
+                padding: 20px 16px;
+                overflow-y: auto;
+                box-shadow: 4px 0 24px rgba(15, 23, 42, 0.14);
+            }
+            .sidebar-user-card {
+                background: rgba(255, 255, 255, 0.06);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 16px;
+                padding: 12px;
+                margin: 16px 0;
+            }
+            .sidebar-nav {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+            .sidebar-tab-btn {
+                width: 100%;
+                border: none;
+                background: transparent;
+                color: var(--slate-200);
+                padding: 11px 14px;
+                border-radius: 14px;
+                font-size: 13.5px;
+                font-weight: 700;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                text-align: left;
+                transition: all 0.15s;
+            }
+            .sidebar-tab-btn:hover {
+                background: rgba(255, 255, 255, 0.08);
+                color: #fff;
+            }
+            .sidebar-tab-btn.active {
+                background: var(--emerald-600);
+                color: #fff;
+                box-shadow: 0 6px 16px rgba(5, 150, 105, 0.35);
+            }
+            .sidebar-tab-btn.active.ai-tab {
+                background: var(--pink-600);
+                box-shadow: 0 6px 16px rgba(219, 39, 119, 0.35);
+            }
+            .sidebar-summary-box {
+                background: linear-gradient(135deg, rgba(16, 185, 129, 0.16), rgba(236, 72, 153, 0.16));
+                border: 1px solid rgba(255, 255, 255, 0.14);
+                border-radius: 16px;
+                padding: 12px 14px;
+                margin-top: 16px;
+            }
+            .main-container {
+                margin-left: 268px;
+                width: calc(100% - 268px);
+                padding: 26px 28px 48px;
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--slate-900);
+        }
+        .section-subtitle {
+            font-size: 13px;
+            color: var(--slate-500);
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .grid-2-asym {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            gap: 18px;
+        }
+        @media (min-width: 1060px) {
+            .grid-2-asym { grid-template-columns: 380px minmax(0, 1fr); }
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 16px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 22px;
+            padding: 18px;
+            border: 1px solid var(--slate-200);
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+            min-width: 0;
+        }
+        @media (min-width: 640px) {
+            .card { padding: 20px; }
+        }
+        .card-hero {
+            background: linear-gradient(135deg, var(--emerald-900), var(--emerald-700));
+            color: #fff;
+            border: none;
+        }
+        .card-pink {
+            background: linear-gradient(135deg, var(--pink-50), #fff);
+            border: 1.5px solid var(--pink-200);
+        }
+
+        .kpi-label {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.85;
+        }
+        .kpi-value {
+            font-size: clamp(20px, 3.5vw, 26px);
+            font-weight: 900;
+            margin: 6px 0 4px;
+            letter-spacing: -0.02em;
+            word-break: break-word;
+        }
+        .kpi-note {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .type-toggle {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            background: var(--slate-100);
+            padding: 5px;
+            border-radius: 14px;
+            margin-bottom: 14px;
+        }
+        .type-btn {
+            border: none;
+            padding: 10px;
+            border-radius: 11px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            background: transparent;
+            color: var(--slate-500);
+            transition: all 0.15s;
+        }
+        .type-btn.active-income {
+            background: var(--emerald-600);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(5, 150, 105, 0.25);
+        }
+        .type-btn.active-expense {
+            background: var(--rose-600);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(225, 29, 72, 0.25);
+        }
+
+        .btn-solid {
+            border: none;
+            padding: 12px 18px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: transform 0.1s, opacity 0.15s;
+        }
+        .btn-solid:active { transform: scale(0.98); }
+        .btn-solid:disabled { opacity: 0.55; cursor: not-allowed; }
+        .btn-emerald { background: var(--emerald-600); color: #fff; }
+        .btn-rose { background: var(--rose-600); color: #fff; }
+        .btn-pink { background: var(--pink-600); color: #fff; }
+        .btn-slate { background: var(--slate-800); color: #fff; }
+        .btn-light { background: var(--slate-100); color: var(--slate-700); }
+        .btn-full { width: 100%; }
+
+        .tx-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .filter-chip {
+            border: 1px solid var(--slate-200);
+            background: var(--slate-50);
+            color: var(--slate-700);
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .filter-chip.active {
+            background: var(--slate-900);
+            color: #fff;
+            border-color: var(--slate-900);
+        }
+        .tx-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 460px;
+            overflow-y: auto;
+        }
+        .tx-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: var(--slate-50);
+            border: 1px solid var(--slate-200);
+        }
+        .tx-item.savings-tx {
+            background: var(--pink-50);
+            border-color: var(--pink-200);
+        }
+        .tx-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+        .tx-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            background: #fff;
+            border: 1px solid var(--slate-200);
+            flex-shrink: 0;
+        }
+        .tx-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--slate-900);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .tx-meta {
+            font-size: 11px;
+            color: var(--slate-500);
+        }
+        .tx-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        .tx-amount {
+            font-size: 14px;
+            font-weight: 900;
+        }
+        .tx-amount.inc { color: var(--emerald-600); }
+        .tx-amount.exp { color: var(--rose-600); }
+        .tx-amount.sav { color: var(--pink-600); }
+        .btn-del {
+            border: none;
+            background: transparent;
+            color: var(--slate-400);
+            font-size: 15px;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 8px;
+        }
+        .btn-del:hover { background: var(--rose-50); color: var(--rose-600); }
+
+        .progress-track {
+            width: 100%;
+            height: 12px;
+            background: var(--slate-100);
+            border-radius: 999px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pink-500), var(--emerald-500));
+            border-radius: 999px;
+            transition: width 0.35s ease;
+        }
+        .quick-add-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 12px;
+        }
+        .btn-mini {
+            border: 1px solid var(--pink-200);
+            background: var(--pink-50);
+            color: var(--pink-600);
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .btn-mini:hover { background: var(--pink-500); color: #fff; }
+
+        .canvas-wrap {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-top: 10px;
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+        .legend-list {
+            width: 100%;
+            margin-top: 14px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 8px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            background: var(--slate-50);
+            padding: 6px 10px;
+            border-radius: 10px;
+        }
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        /* MoniCerdito IA Chat */
+        .ai-banner {
+            background: linear-gradient(135deg, var(--pink-600), #9d174d);
+            color: #fff;
+            border-radius: 22px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+        .ai-avatar-lg {
+            width: 76px;
+            height: 76px;
+            background: #fff;
+            border-radius: 22px;
+            padding: 5px;
+            border: 3px solid var(--pink-200);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .engine-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.16);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .chat-window {
+            height: clamp(310px, 50vh, 430px);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 12px;
+            background: var(--slate-50);
+            border-radius: 18px;
+            border: 1px solid var(--slate-200);
+            margin-bottom: 12px;
+        }
+        .msg-bubble {
+            max-width: 88%;
+            padding: 12px 15px;
+            border-radius: 18px;
+            font-size: 13.5px;
+            line-height: 1.55;
+            white-space: pre-line;
+            word-wrap: break-word;
+        }
+        .msg-user {
+            align-self: flex-end;
+            background: var(--emerald-600);
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+        .msg-bot {
+            align-self: flex-start;
+            background: #ffffff;
+            color: var(--slate-800);
+            border: 1.5px solid var(--pink-200);
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.08);
+        }
+        .msg-bot-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--pink-600);
+            margin-bottom: 5px;
+        }
+        .msg-engine-tag {
+            font-size: 10px;
+            background: var(--pink-50);
+            color: var(--pink-600);
+            border: 1px solid var(--pink-200);
+            padding: 1px 7px;
+            border-radius: 999px;
+        }
+        .typing-dots span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            margin: 0 2px;
+            background: var(--pink-500);
+            border-radius: 50%;
+            animation: pulseDot 1s infinite ease-in-out;
+        }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        .prompt-chips {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 8px;
+        }
+        .prompt-chip {
+            border: 1px solid var(--pink-200);
+            background: var(--pink-50);
+            color: var(--pink-600);
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .prompt-chip:hover { background: var(--pink-500); color: #fff; }
+        .chat-input-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* 101 Consejos */
+        .tip-card {
+            background: #fff;
+            border: 1px solid var(--slate-200);
+            border-radius: 20px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .tip-card.featured-mixteca {
+            border: 2px solid var(--pink-400);
+            background: linear-gradient(135deg, var(--pink-50), #ffffff);
+        }
+        .tip-badge {
+            display: inline-block;
+            background: var(--emerald-50);
+            color: var(--emerald-700);
+            border: 1px solid var(--emerald-100);
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+        .tip-title {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--slate-900);
+        }
+        .tip-box-how {
+            background: var(--slate-50);
+            padding: 10px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            color: var(--slate-700);
+        }
+        .tip-box-ex {
+            background: var(--amber-50);
+            border: 1px solid #fde68a;
+            padding: 10px 12px;
+            border-radius: 12px;
+            font-size: 12.5px;
+            color: #78350f;
+        }
+
+        /* Sopa de Letras 100 Niveles con Dificultad Progresiva */
+        .wordsearch-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            gap: 18px;
+        }
+        @media (min-width: 1020px) {
+            .wordsearch-layout { grid-template-columns: minmax(0, 1fr) 300px; }
+        }
+        .ws-board {
+            display: grid;
+            gap: 3px;
+            width: 100%;
+            max-width: min(460px, 100%);
+            margin: 0 auto;
+            user-select: none;
+            touch-action: none;
+        }
+        .ws-cell {
+            aspect-ratio: 1 / 1;
+            background: var(--slate-100);
+            border: 1.5px solid var(--slate-200);
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: clamp(10px, 3vw, 14px);
+            color: var(--slate-800);
+            cursor: pointer;
+            transition: transform 0.08s, background 0.12s;
+        }
+        .ws-cell.selecting {
+            background: var(--pink-500);
+            border-color: var(--pink-600);
+            color: #fff;
+            transform: scale(1.06);
+        }
+        .ws-cell.found {
+            background: var(--emerald-500);
+            border-color: var(--emerald-600);
+            color: #fff;
+        }
+        .ws-cell.hint {
+            background: var(--amber-400);
+            border-color: var(--amber-600);
+            color: var(--slate-900);
+        }
+        .word-pill {
+            padding: 7px 12px;
+            border-radius: 12px;
+            background: var(--slate-100);
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--slate-800);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .word-pill.found {
+            background: var(--emerald-100);
+            color: var(--emerald-700);
+            text-decoration: line-through;
+        }
+        .difficulty-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 800;
+            margin-left: 6px;
+        }
+        .diff-easy { background: var(--emerald-100); color: var(--emerald-700); }
+        .diff-med { background: #fef3c7; color: #b45309; }
+        .diff-hard { background: var(--pink-100); color: var(--pink-600); }
+        .diff-expert { background: #fee2e2; color: #b91c1c; }
+
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .lvl-btn {
+            padding: 10px 4px;
+            border-radius: 12px;
+            border: 1.5px solid var(--slate-200);
+            background: var(--slate-50);
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            color: var(--slate-700);
+        }
+        .lvl-btn.completed {
+            background: var(--emerald-100);
+            border-color: var(--emerald-500);
+            color: var(--emerald-700);
+        }
+        .lvl-btn.current {
+            background: var(--pink-600);
+            border-color: var(--pink-600);
+            color: #fff;
+        }
+
+        /* Modal Genérico */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            z-index: 200;
+        }
+        .modal-card {
+            background: #fff;
+            border-radius: 24px;
+            max-width: 440px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 22px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Contenedor de Notificaciones -->
+    <div id="toast-container"></div>
+
+    <!-- =========================================================================
+         PANTALLA 0: REGISTRO / INICIO DE SESIÓN (NOMBRE Y CORREO ELECTRÓNICO)
+         ========================================================================= -->
+    <div id="onboarding-screen">
+        <div class="onboarding-card fade-in">
+            <div class="onboarding-header">
+                <div class="badge-pill">✨ Finanzas Personales Inteligentes</div>
+                <div class="pig-hero-box kawaii-float" id="hero-pig-slot">
+                    <!-- SVG Kawaii MoniCerdito incrustado directamente -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="80" height="80" aria-label="MoniCerdito Kawaii">
+                        <g class="coin-bounce">
+                            <circle cx="60" cy="16" r="11" fill="#fbbf24" stroke="#d97706" stroke-width="2.5"/>
+                            <text x="60" y="20.5" text-anchor="middle" font-size="12" font-weight="900" fill="#78350f">$</text>
+                        </g>
+                        <rect x="46" y="29" width="28" height="4.5" rx="2.2" fill="#9d174d"/>
+                        <path d="M22 45 C12 22, 34 18, 43 36 Z" fill="#f472b6" stroke="#db2777" stroke-width="2.5"/>
+                        <path d="M26 42 C20 28, 32 25, 38 36 Z" fill="#fbcfe8"/>
+                        <path d="M98 45 C108 22, 86 18, 77 36 Z" fill="#f472b6" stroke="#db2777" stroke-width="2.5"/>
+                        <path d="M94 42 C100 28, 88 25, 82 36 Z" fill="#fbcfe8"/>
+                        <ellipse cx="60" cy="68" rx="44" ry="38" fill="#f9a8d4" stroke="#db2777" stroke-width="3"/>
+                        <ellipse cx="32" cy="73" rx="7.5" ry="4.5" fill="#f43f5e" opacity="0.45"/>
+                        <ellipse cx="88" cy="73" rx="7.5" ry="4.5" fill="#f43f5e" opacity="0.45"/>
+                        <circle cx="42" cy="60" r="6.5" fill="#1e293b"/>
+                        <circle cx="40" cy="58" r="2.3" fill="#ffffff"/>
+                        <circle cx="44" cy="62" r="1.1" fill="#ffffff"/>
+                        <circle cx="78" cy="60" r="6.5" fill="#1e293b"/>
+                        <circle cx="76" cy="58" r="2.3" fill="#ffffff"/>
+                        <circle cx="80" cy="62" r="1.1" fill="#ffffff"/>
+                        <ellipse cx="60" cy="74" rx="15" ry="10.5" fill="#f472b6" stroke="#db2777" stroke-width="2.5"/>
+                        <circle cx="54.5" cy="74" r="2.6" fill="#831843"/>
+                        <circle cx="65.5" cy="74" r="2.6" fill="#831843"/>
+                        <path d="M54 88 Q60 94 66 88" fill="none" stroke="#831843" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M51 99 L60 103 L51 107 Z" fill="#10b981" stroke="#047857" stroke-width="1.5"/>
+                        <path d="M69 99 L60 103 L69 107 Z" fill="#10b981" stroke="#047857" stroke-width="1.5"/>
+                        <circle cx="60" cy="103" r="3" fill="#34d399" stroke="#047857" stroke-width="1.5"/>
+                    </svg>
+                </div>
+                <h1>MoneyGo</h1>
+                <p>Tu alcancía inteligente y asesor financiero personal</p>
+            </div>
+
+            <div class="onboarding-body">
+                <div>
+                    <label class="field-label" for="reg-name">Nombre o cómo te gustaría que te llamara</label>
+                    <input type="text" id="reg-name" class="input-control" maxlength="35" placeholder="Ej. Sofía, Alex, Leo..." onkeydown="if(event.key==='Enter') completeOnboarding()">
+                </div>
+
+                <div>
+                    <label class="field-label" for="reg-email">Correo electrónico (para guardar tus datos)</label>
+                    <input type="email" id="reg-email" class="input-control" maxlength="60" placeholder="tucorreo@ejemplo.com" onkeydown="if(event.key==='Enter') completeOnboarding()">
+                    <p style="font-size: 11px; color: var(--slate-400); margin-top: 4px;">
+                        Cada correo guarda su propia cuenta de forma totalmente independiente.
+                    </p>
+                </div>
+
+                <div class="mode-box">
+                    <div class="mode-box-title">Si es tu primera vez con este correo, ¿cómo quieres empezar?</div>
+                    <div class="mode-grid">
+                        <button type="button" id="btn-mode-demo" class="mode-option active" onclick="selectStartMode('demo')">
+                            <strong>✓ Con datos de ejemplo</strong>
+                            <span>$500 ingreso, $100 meta ($400 libre)</span>
+                        </button>
+                        <button type="button" id="btn-mode-empty" class="mode-option" onclick="selectStartMode('empty')">
+                            <strong>○ Empezar en $0.00</strong>
+                            <span>Cuenta nueva en blanco</span>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="button" id="btn-enter-app" class="btn-primary-gradient" onclick="completeOnboarding()">
+                    ¡Entrar a mi cuenta MoneyGo! ✨
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         APLICACIÓN PRINCIPAL (#app-shell)
+         ========================================================================= -->
+    <div id="app-shell" class="hidden">
+
+        <!-- Cabecera Compacta para Celulares / Tablets (< 900px) -->
+        <header class="mobile-topbar">
+            <div class="brand-group">
+                <div class="brand-avatar kawaii-float" id="mobile-pig-slot"></div>
+                <div style="min-width:0;">
+                    <div class="brand-title">
+                        MoneyGo <span class="brand-tag">IA</span>
+                    </div>
+                    <div class="brand-sub" id="mobile-user-label">👤 Usuario</div>
+                </div>
+            </div>
+            <button type="button" class="btn-logout" onclick="logoutUser()">Cambiar cuenta</button>
+        </header>
+
+        <!-- Menú Lateral Fijo Izquierdo para Computadoras (>= 900px) -->
+        <aside class="desktop-sidebar">
+            <div>
+                <div class="brand-group">
+                    <div class="brand-avatar kawaii-float" id="nav-pig-slot"></div>
+                    <div style="min-width:0;">
+                        <div class="brand-title">
+                            MoneyGo <span class="brand-tag">IA</span>
+                        </div>
+                        <div class="brand-sub">Asesor Kawaii</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-user-card">
+                    <div style="font-size: 13px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="header-user-pill">👤 Usuario</div>
+                    <div style="font-size: 11px; color: var(--slate-400); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px;" id="nav-subtitle">correo@ejemplo.com</div>
+                    <button type="button" class="btn-logout" style="width: 100%; margin-top: 10px; text-align: center;" onclick="logoutUser()">Cambiar cuenta</button>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <button type="button" class="sidebar-tab-btn tab-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">📊 Panel Principal</button>
+                    <button type="button" class="sidebar-tab-btn tab-btn" data-tab="savings" onclick="switchTab('savings')">🐷 Metas de Ahorro</button>
+                    <button type="button" class="sidebar-tab-btn tab-btn" data-tab="stats" onclick="switchTab('stats')">📈 Estadísticas</button>
+                    <button type="button" class="sidebar-tab-btn tab-btn ai-tab" data-tab="ai" onclick="switchTab('ai')">✨ MoniCerdito IA</button>
+                    <button type="button" class="sidebar-tab-btn tab-btn" data-tab="tips" onclick="switchTab('tips')">💡 101 Consejos</button>
+                    <button type="button" class="sidebar-tab-btn tab-btn" data-tab="game" onclick="switchTab('game')">🧩 Sopa de Letras</button>
+                </nav>
+            </div>
+
+            <div class="sidebar-summary-box">
+                <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--emerald-100);">Saldo Disponible</div>
+                <div style="font-size: 18px; font-weight: 900; color: #fff; margin: 2px 0 6px;" id="sidebar-balance">$0.00</div>
+                <div style="font-size: 11px; color: var(--pink-200);" id="sidebar-saved">🐷 Alcancía: $0.00</div>
+            </div>
+        </aside>
+
+        <!-- Barra Inferior Fija para Celulares (< 900px) -->
+        <nav class="mobile-bottombar" aria-label="Menú principal móvil">
+            <button type="button" class="mobile-nav-btn tab-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">
+                <span class="m-icon">📊</span>
+                <span class="m-label">Panel</span>
+            </button>
+            <button type="button" class="mobile-nav-btn tab-btn" data-tab="savings" onclick="switchTab('savings')">
+                <span class="m-icon">🐷</span>
+                <span class="m-label">Metas</span>
+            </button>
+            <button type="button" class="mobile-nav-btn tab-btn" data-tab="stats" onclick="switchTab('stats')">
+                <span class="m-icon">📈</span>
+                <span class="m-label">Gráficas</span>
+            </button>
+            <button type="button" class="mobile-nav-btn tab-btn ai-tab" data-tab="ai" onclick="switchTab('ai')">
+                <span class="m-icon">✨</span>
+                <span class="m-label">IA Cerdito</span>
+            </button>
+            <button type="button" class="mobile-nav-btn tab-btn" data-tab="tips" onclick="switchTab('tips')">
+                <span class="m-icon">💡</span>
+                <span class="m-label">Consejos</span>
+            </button>
+            <button type="button" class="mobile-nav-btn tab-btn" data-tab="game" onclick="switchTab('game')">
+                <span class="m-icon">🧩</span>
+                <span class="m-label">Juego</span>
+            </button>
+        </nav>
+
+        <!-- Contenido Principal -->
+        <main class="main-container">
+
+            <!-- =================================================================
+                 PESTAÑA 1: PANEL PRINCIPAL
+                 ================================================================= -->
+            <section id="tab-dashboard" class="tab-panel fade-in">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title" id="welcome-heading">¡Hola! 👋</h2>
+                        <p class="section-subtitle">Administra tus apoyos, ingresos, gastos diarios y ahorros en un solo lugar.</p>
+                    </div>
+                </div>
+
+                <!-- 4 Tarjetas KPI -->
+                <div class="grid-4">
+                    <div class="card card-hero">
+                        <div class="kpi-label">Saldo Disponible</div>
+                        <div class="kpi-value" id="kpi-balance">$0.00</div>
+                        <div class="kpi-note">Dinero libre después de gastos y ahorros</div>
+                    </div>
+                    <div class="card">
+                        <div class="kpi-label" style="color: var(--emerald-700);">Ingresos / Apoyos Totales</div>
+                        <div class="kpi-value" style="color: var(--emerald-600);" id="kpi-income">$0.00</div>
+                        <div class="kpi-note">Sueldo, mesada, becas o ingresos extra</div>
+                    </div>
+                    <div class="card">
+                        <div class="kpi-label" style="color: var(--rose-600);">Gastos Totales</div>
+                        <div class="kpi-value" style="color: var(--rose-600);" id="kpi-expense">$0.00</div>
+                        <div class="kpi-note" id="kpi-expense-note">Incluye abonos a metas de ahorro</div>
+                    </div>
+                    <div class="card card-pink">
+                        <div class="kpi-label" style="color: var(--pink-600);">Total en Alcancía</div>
+                        <div class="kpi-value" style="color: var(--pink-600);" id="kpi-piggy">$0.00</div>
+                        <div class="kpi-note">Acumulado en tus metas de ahorro</div>
+                    </div>
+                </div>
+
+                <!-- Formulario + Historial -->
+                <div class="grid-2-asym">
+                    <div class="card">
+                        <h3 style="font-size: 17px; font-weight: 900; margin-bottom: 4px;">Registrar Movimiento</h3>
+                        <p style="font-size: 12px; color: var(--slate-500); margin-bottom: 14px;">Elige si recibiste un apoyo/ingreso o realizaste un gasto.</p>
+
+                        <div class="type-toggle">
+                            <button type="button" id="btn-type-income" class="type-btn active-income" onclick="setTxType('income')">+ Apoyo / Ingreso</button>
+                            <button type="button" id="btn-type-expense" class="type-btn" onclick="setTxType('expense')">− Gasto</button>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div>
+                                <label class="field-label" for="tx-desc">Concepto</label>
+                                <input type="text" id="tx-desc" class="input-control" maxlength="50" placeholder="Ej. Comida, Pasajes, Apoyo semanal...">
+                            </div>
+
+                            <div>
+                                <label class="field-label" for="tx-amount">Monto ($ MXN)</label>
+                                <input type="number" id="tx-amount" class="input-control" min="0.5" step="0.5" placeholder="Ej. 150.00">
+                            </div>
+
+                            <div>
+                                <label class="field-label" for="tx-category">Categoría</label>
+                                <select id="tx-category" class="input-control"></select>
+                            </div>
+
+                            <div>
+                                <label class="field-label" for="tx-date">Fecha</label>
+                                <input type="date" id="tx-date" class="input-control">
+                            </div>
+
+                            <button type="button" id="btn-save-tx" class="btn-solid btn-emerald btn-full" onclick="addTransaction()">
+                                + Guardar Ingreso / Apoyo
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+                            <div>
+                                <h3 style="font-size: 17px; font-weight: 900;">Movimientos Recientes</h3>
+                                <p style="font-size: 12px; color: var(--slate-500);">Tus abonos a metas se reflejan automáticamente como gasto bajo "Ahorro Meta".</p>
+                            </div>
+                        </div>
+
+                        <div class="tx-filters">
+                            <button type="button" class="filter-chip active" data-filter="all" onclick="setTxFilter('all')">Todos</button>
+                            <button type="button" class="filter-chip" data-filter="income" onclick="setTxFilter('income')">Solo Ingresos</button>
+                            <button type="button" class="filter-chip" data-filter="expense" onclick="setTxFilter('expense')">Solo Gastos</button>
+                            <button type="button" class="filter-chip" data-filter="savings" onclick="setTxFilter('savings')">🐷 Ahorro Meta</button>
+                        </div>
+
+                        <input type="text" id="tx-search" class="input-control" style="margin-bottom: 12px; padding: 9px 12px; font-size: 13px;" placeholder="Buscar movimiento por concepto o categoría..." oninput="renderTransactions()">
+
+                        <div id="tx-list" class="tx-list"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =================================================================
+                 PESTAÑA 2: METAS DE AHORRO (REFLEJADAS COMO GASTO/APARTADO)
+                 ================================================================= -->
+            <section id="tab-savings" class="tab-panel hidden fade-in">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Metas de Ahorro 🐷</h2>
+                        <p class="section-subtitle">Cada abono descuenta de tu saldo disponible y se registra automáticamente como gasto en "Ahorro Meta".</p>
+                    </div>
+                    <button type="button" class="btn-solid btn-pink" onclick="openGoalModal()">+ Nueva Meta de Ahorro</button>
+                </div>
+
+                <div class="grid-3">
+                    <div class="card card-pink">
+                        <div class="kpi-label" style="color: var(--pink-600);">Total Guardado en Metas</div>
+                        <div class="kpi-value" style="color: var(--pink-600);" id="sav-total-saved">$0.00</div>
+                        <div class="kpi-note">Protegido dentro de tu alcancía</div>
+                    </div>
+                    <div class="card">
+                        <div class="kpi-label" style="color: var(--emerald-700);">Saldo Disponible para Abonar</div>
+                        <div class="kpi-value" style="color: var(--emerald-600);" id="sav-available">$0.00</div>
+                        <div class="kpi-note">Puedes transferirlo a cualquier meta</div>
+                    </div>
+                    <div class="card">
+                        <div class="kpi-label" style="color: var(--slate-500);">Progreso Global</div>
+                        <div class="kpi-value" style="color: var(--slate-900);" id="sav-global-pct">0%</div>
+                        <div class="kpi-note" id="sav-goals-count">0 metas activas</div>
+                    </div>
+                </div>
+
+                <div id="goals-grid" class="grid-2"></div>
+            </section>
+
+            <!-- =================================================================
+                 PESTAÑA 3: ESTADÍSTICAS VISUALES NATIVAS (CANVAS HTML5)
+                 ================================================================= -->
+            <section id="tab-stats" class="tab-panel hidden fade-in">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Estadísticas Financieras 📈</h2>
+                        <p class="section-subtitle">Visualiza en qué categorías se distribuye tu dinero, incluyendo tus abonos a metas.</p>
+                    </div>
+                </div>
+
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="kpi-label">Porcentaje de Ahorro</div>
+                        <div class="kpi-value" style="color: var(--pink-600);" id="stat-savings-rate">0%</div>
+                        <div class="kpi-note">Proporción de tus ingresos destinada a metas</div>
+                    </div>
+                    <div class="card">
+                        <div class="kpi-label">Mayor Fuga de Dinero</div>
+                        <div class="kpi-value" style="font-size: 21px; color: var(--rose-600);" id="stat-top-cat">Sin datos</div>
+                        <div class="kpi-note" id="stat-top-cat-amt">$0.00 acumulados</div>
+                    </div>
+                    <div class="card">
+                        <div class="kpi-label">Gasto Promedio por Movimiento</div>
+                        <div class="kpi-value" style="color: var(--slate-900);" id="stat-avg-expense">$0.00</div>
+                        <div class="kpi-note">Promedio entre salidas registradas</div>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <h3 style="font-size: 16px; font-weight: 900;">Distribución de Gastos por Categoría</h3>
+                        <p style="font-size: 12px; color: var(--slate-500);">Incluye gastos operativos y ahorro destinado a metas</p>
+                        <div class="canvas-wrap">
+                            <canvas id="donut-canvas" width="280" height="280"></canvas>
+                            <div id="donut-legend" class="legend-list"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 style="font-size: 16px; font-weight: 900;">Comparativa: Ingresos vs. Gastos vs. Ahorro</h3>
+                        <p style="font-size: 12px; color: var(--slate-500);">Balance visual de tu flujo de dinero</p>
+                        <div class="canvas-wrap">
+                            <canvas id="bar-canvas" width="380" height="280"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =================================================================
+                 PESTAÑA 4: MONICERDITO IA (TU ASISTENTE FAVORITO)
+                 ================================================================= -->
+            <section id="tab-ai" class="tab-panel hidden fade-in">
+                <div class="ai-banner">
+                    <div class="ai-avatar-lg kawaii-float" id="ai-pig-slot"></div>
+                    <div style="flex: 1; min-width: 220px;">
+                        <div class="engine-badge">✨ Tu Asistente Favorito</div>
+                        <h2 style="font-size: 22px; font-weight: 900; margin: 2px 0;">¡Oink! Soy MoniCerdito</h2>
+                        <p style="font-size: 13px; color: var(--pink-100);" id="ai-live-diagnosis">
+                            Pregúntame cualquier operación matemática, escenario hipotético, duda sobre tu saldo real o consejo financiero.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div id="chat-window" class="chat-window"></div>
+
+                    <div class="prompt-chips">
+                        <button type="button" class="prompt-chip" onclick="sendQuickPrompt('25 por 35')">🧮 25 por 35</button>
+                        <button type="button" class="prompt-chip" onclick="sendQuickPrompt('tengo 100 pesos para 5 días sin tomar en cuenta el dinero que tengo')">💵 $100 para 5 días</button>
+                        <button type="button" class="prompt-chip" onclick="sendQuickPrompt('si ahorro 20 diarios por 6 meses cuánto junto')">🐷 Ahorro 20/día</button>
+                        <button type="button" class="prompt-chip" onclick="sendQuickPrompt('quiero juntar 3000 en 4 meses')">🎯 Juntar $3,000</button>
+                        <button type="button" class="prompt-chip" onclick="sendQuickPrompt('¿Cómo va mi dinero y en qué gasto más?')">📊 Mi dinero real</button>
+                        <button type="button" class="prompt-chip" onclick="sendQuickPrompt('15% de 800 y raíz cuadrada de 144')">🔢 15% de 800</button>
+                        <button type="button" class="prompt-chip" onclick="sendQuickPrompt('¿Qué cajas de ahorro recomiendas en la Mixteca?')">🏦 Cajas Mixteca</button>
+                        <button type="button" class="prompt-chip" onclick="sendQuickPrompt('¿Qué son los gastos hormiga?')">🐜 Gastos hormiga</button>
+                    </div>
+
+                    <div class="chat-input-row">
+                        <input type="text" id="chat-input" class="input-control" placeholder="Escribe cualquier operación, escenario hipotético o pregunta sobre tus finanzas..." onkeydown="if(event.key==='Enter') handleUserChat()">
+                        <button type="button" id="btn-send-chat" class="btn-solid btn-pink" onclick="handleUserChat()">Enviar ✨</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =================================================================
+                 PESTAÑA 5: 101 CONSEJOS DE AHORRO CON PASO A PASO Y EJEMPLOS
+                 ================================================================= -->
+            <section id="tab-tips" class="tab-panel hidden fade-in">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">101 Consejos y Formas de Ahorrar 💡</h2>
+                        <p class="section-subtitle">Guía práctica con paso a paso y ejemplos en pesos mexicanos, incluyendo cajas de ahorro en la Mixteca.</p>
+                    </div>
+                    <button type="button" class="btn-solid btn-pink" onclick="showRandomTip()">🎲 Consejo Aleatorio</button>
+                </div>
+
+                <div class="card" style="margin-bottom: 18px;">
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between;">
+                        <input type="text" id="tips-search" class="input-control" style="max-width: 420px;" placeholder="Buscar consejo (ej. Acreimex, Mixteca, café, súper, luz, regla)..." oninput="renderTips()">
+                        <div style="font-size: 12px; font-weight: 800; color: var(--emerald-700);" id="tips-counter">Mostrando 101 de 101 consejos</div>
+                    </div>
+
+                    <div class="tx-filters" style="margin-top: 12px; margin-bottom: 0;" id="tips-category-bar"></div>
+                </div>
+
+                <div id="tips-grid" class="grid-2"></div>
+            </section>
+
+            <!-- =================================================================
+                 PESTAÑA 6: SOPA DE LETRAS FINANCIERA (100 NIVELES PROGRESIVOS)
+                 ================================================================= -->
+            <section id="tab-game" class="tab-panel hidden fade-in">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Sopa de Letras Financiera 🧩</h2>
+                        <p class="section-subtitle">100 niveles con dificultad progresiva: de tableros 6×6 hasta retos expertos de 12×12.</p>
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button type="button" class="btn-solid btn-light" onclick="useGameHint()">💡 Pista</button>
+                        <button type="button" class="btn-solid btn-slate" onclick="openLevelsModal()">📋 Elegir Nivel (1-100)</button>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom: 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <span class="tip-badge" id="game-level-badge">Nivel 1 de 100</span>
+                        <span class="difficulty-pill diff-easy" id="game-diff-badge">Fácil • 6×6</span>
+                        <h3 style="font-size: 18px; font-weight: 900; margin-top: 6px;" id="game-level-title">Primeros Pasos del Ahorro</h3>
+                        <p style="font-size: 12px; color: var(--slate-500);" id="game-level-desc">Arrastra el dedo o el cursor desde la primera hasta la última letra de cada palabra.</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 12px; font-weight: 800; color: var(--emerald-700);" id="game-progress-text">Niveles completados: 0 / 100</div>
+                        <button type="button" class="btn-mini" style="margin-top: 6px;" onclick="initWordSearchLevel(currentGameLevel)">↻ Reiniciar tablero</button>
+                    </div>
+                </div>
+
+                <div class="wordsearch-layout">
+                    <div class="card" style="display: flex; align-items: center; justify-content: center;">
+                        <div id="ws-board" class="ws-board"></div>
+                    </div>
+
+                    <div class="card">
+                        <h4 style="font-size: 15px; font-weight: 900; margin-bottom: 10px;">Palabras a encontrar:</h4>
+                        <div id="ws-word-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
+
+                        <div id="ws-win-box" class="hidden" style="margin-top: 18px; padding: 14px; border-radius: 16px; background: var(--emerald-50); border: 1.5px solid var(--emerald-500); text-align: center;">
+                            <div style="font-size: 16px; font-weight: 900; color: var(--emerald-700);">🎉 ¡Nivel Completado!</div>
+                            <p style="font-size: 12px; color: var(--slate-700); margin: 4px 0 10px;">¡Oink! Sube el reto en el siguiente nivel.</p>
+                            <button type="button" class="btn-solid btn-emerald btn-full" onclick="nextGameLevel()">Siguiente Nivel →</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- =========================================================================
+         MODAL: NUEVA META DE AHORRO
+         ========================================================================= -->
+    <div id="goal-modal" class="modal-backdrop hidden">
+        <div class="modal-card fade-in">
+            <h3 style="font-size: 18px; font-weight: 900; margin-bottom: 4px;">Crear Nueva Meta 🐷</h3>
+            <p style="font-size: 12px; color: var(--slate-500); margin-bottom: 14px;">Define tu objetivo. Cada abono se reflejará automáticamente como un gasto/apartado.</p>
+
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div>
+                    <label class="field-label" for="goal-name">Nombre de la meta</label>
+                    <input type="text" id="goal-name" class="input-control" maxlength="35" placeholder="Ej. Fondo de Emergencia, Laptop, Proyecto Acreimex...">
+                </div>
+                <div>
+                    <label class="field-label" for="goal-target">Monto objetivo ($ MXN)</label>
+                    <input type="number" id="goal-target" class="input-control" min="10" step="10" placeholder="Ej. 2000">
+                </div>
+                <div>
+                    <label class="field-label" for="goal-note">Fecha objetivo o nota (opcional)</label>
+                    <input type="text" id="goal-note" class="input-control" maxlength="45" placeholder="Ej. Diciembre 2026 / Para proyecto propio">
+                </div>
+                <div>
+                    <label class="field-label" for="goal-icon">Ícono</label>
+                    <select id="goal-icon" class="input-control">
+                        <option value="🐷">🐷 Alcancía General</option>
+                        <option value="🏦">🏦 Caja de Ahorro / Proyecto</option>
+                        <option value="🛡️">🛡️ Fondo de Emergencia</option>
+                        <option value="💻">💻 Tecnología / Laptop</option>
+                        <option value="✈️">✈️ Viaje / Vacaciones</option>
+                        <option value="🎓">🎓 Educación / Cursos</option>
+                        <option value="👟">👟 Ropa / Gustos</option>
+                    </select>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px;">
+                    <button type="button" class="btn-solid btn-light" onclick="closeGoalModal()">Cancelar</button>
+                    <button type="button" class="btn-solid btn-emerald" onclick="createGoal()">Guardar Meta</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         MODAL: SELECTOR DE 100 NIVELES
+         ========================================================================= -->
+    <div id="levels-modal" class="modal-backdrop hidden">
+        <div class="modal-card fade-in" style="max-width: 520px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                <h3 style="font-size: 18px; font-weight: 900;">Selecciona un Nivel (1 – 100)</h3>
+                <button type="button" class="btn-del" style="font-size: 20px;" onclick="closeLevelsModal()">✕</button>
+            </div>
+
+            <div style="display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap;">
+                <button type="button" class="filter-chip active" id="range-btn-1" onclick="renderLevelsPage(1)">1 – 25</button>
+                <button type="button" class="filter-chip" id="range-btn-26" onclick="renderLevelsPage(26)">26 – 50</button>
+                <button type="button" class="filter-chip" id="range-btn-51" onclick="renderLevelsPage(51)">51 – 75</button>
+                <button type="button" class="filter-chip" id="range-btn-76" onclick="renderLevelsPage(76)">76 – 100</button>
+            </div>
+
+            <div id="levels-grid" class="levels-grid"></div>
+        </div>
+    </div>
+
+    <script>
+        /* =========================================================================
+           1. AVATAR SVG KAWAII DE MONICERDITO
+           ========================================================================= */
+        function getKawaiiPigSVG(size) {
+            return `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="${size}" height="${size}" aria-label="MoniCerdito Kawaii">
+                    <g class="coin-bounce">
+                        <circle cx="60" cy="16" r="11" fill="#fbbf24" stroke="#d97706" stroke-width="2.5"/>
+                        <text x="60" y="20.5" text-anchor="middle" font-size="12" font-weight="900" fill="#78350f">$</text>
+                    </g>
+                    <rect x="46" y="29" width="28" height="4.5" rx="2.2" fill="#9d174d"/>
+                    <path d="M22 45 C12 22, 34 18, 43 36 Z" fill="#f472b6" stroke="#db2777" stroke-width="2.5"/>
+                    <path d="M26 42 C20 28, 32 25, 38 36 Z" fill="#fbcfe8"/>
+                    <path d="M98 45 C108 22, 86 18, 77 36 Z" fill="#f472b6" stroke="#db2777" stroke-width="2.5"/>
+                    <path d="M94 42 C100 28, 88 25, 82 36 Z" fill="#fbcfe8"/>
+                    <ellipse cx="60" cy="68" rx="44" ry="38" fill="#f9a8d4" stroke="#db2777" stroke-width="3"/>
+                    <ellipse cx="32" cy="73" rx="7.5" ry="4.5" fill="#f43f5e" opacity="0.45"/>
+                    <ellipse cx="88" cy="73" rx="7.5" ry="4.5" fill="#f43f5e" opacity="0.45"/>
+                    <circle cx="42" cy="60" r="6.5" fill="#1e293b"/>
+                    <circle cx="40" cy="58" r="2.3" fill="#ffffff"/>
+                    <circle cx="44" cy="62" r="1.1" fill="#ffffff"/>
+                    <circle cx="78" cy="60" r="6.5" fill="#1e293b"/>
+                    <circle cx="76" cy="58" r="2.3" fill="#ffffff"/>
+                    <circle cx="80" cy="62" r="1.1" fill="#ffffff"/>
+                    <ellipse cx="60" cy="74" rx="15" ry="10.5" fill="#f472b6" stroke="#db2777" stroke-width="2.5"/>
+                    <circle cx="54.5" cy="74" r="2.6" fill="#831843"/>
+                    <circle cx="65.5" cy="74" r="2.6" fill="#831843"/>
+                    <path d="M54 88 Q60 94 66 88" fill="none" stroke="#831843" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M51 99 L60 103 L51 107 Z" fill="#10b981" stroke="#047857" stroke-width="1.5"/>
+                    <path d="M69 99 L60 103 L69 107 Z" fill="#10b981" stroke="#047857" stroke-width="1.5"/>
+                    <circle cx="60" cy="103" r="3" fill="#34d399" stroke="#047857" stroke-width="1.5"/>
+                </svg>
+            `;
+        }
+
+        function injectKawaiiPigs() {
+            const slots = [
+                { id: 'hero-pig-slot', size: 80 },
+                { id: 'nav-pig-slot', size: 34 },
+                { id: 'mobile-pig-slot', size: 32 },
+                { id: 'ai-pig-slot', size: 62 }
+            ];
+            slots.forEach(s => {
+                const el = document.getElementById(s.id);
+                if (el) el.innerHTML = getKawaiiPigSVG(s.size);
+            });
+        }
+
+        /* =========================================================================
+           2. ALMACENAMIENTO AISLADO POR CUENTA CON RESPALDO EN MEMORIA
+           ========================================================================= */
+        const MEMORY_STORE = {};
+        const DB_KEY = 'moneygo_users_db_final_v1';
+        const ACTIVE_EMAIL_KEY = 'moneygo_active_email_final_v1';
+
+        function safeGetItem(key) {
+            try {
+                const val = window.localStorage.getItem(key);
+                return val !== null ? val : (MEMORY_STORE[key] || null);
+            } catch (e) {
+                return MEMORY_STORE[key] || null;
+            }
+        }
+
+        function safeSetItem(key, value) {
+            MEMORY_STORE[key] = value;
+            try {
+                window.localStorage.setItem(key, value);
+            } catch (e) {}
+        }
+
+        function safeRemoveItem(key) {
+            delete MEMORY_STORE[key];
+            try {
+                window.localStorage.removeItem(key);
+            } catch (e) {}
+        }
+
+        function loadUsersDB() {
+            const raw = safeGetItem(DB_KEY);
+            if (!raw) return {};
+            try {
+                return JSON.parse(raw) || {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveUsersDB(db) {
+            safeSetItem(DB_KEY, JSON.stringify(db));
+        }
+
+        /* =========================================================================
+           3. ESTADO DE LA APLICACIÓN Y CATEGORÍAS
+           ========================================================================= */
+        const CATEGORIES = {
+            income: [
+                { id: 'Apoyo / Mesada', icon: '🎁' },
+                { id: 'Sueldo / Quincena', icon: '💼' },
+                { id: 'Beca / Estímulo', icon: '🎓' },
+                { id: 'Ventas / Extra', icon: '🛍️' },
+                { id: 'Otro Ingreso', icon: '✨' }
+            ],
+            expense: [
+                { id: 'Comida y Bebidas', icon: '🍔' },
+                { id: 'Transporte', icon: '🚌' },
+                { id: 'Antojos y Cafetería', icon: '☕' },
+                { id: 'Compras y Ropa', icon: '👕' },
+                { id: 'Servicios y Celular', icon: '📱' },
+                { id: 'Entretenimiento', icon: '🎮' },
+                { id: 'Ahorro Meta', icon: '🐷' },
+                { id: 'Otro Gasto', icon: '🧾' }
+            ]
+        };
+
+        const CATEGORY_COLORS = {
+            'Comida y Bebidas': '#f43f5e',
+            'Transporte': '#3b82f6',
+            'Antojos y Cafetería': '#f59e0b',
+            'Compras y Ropa': '#8b5cf6',
+            'Servicios y Celular': '#06b6d4',
+            'Entretenimiento': '#6366f1',
+            'Ahorro Meta': '#ec4899',
+            'Otro Gasto': '#64748b'
+        };
+
+        let currentUser = null;
+        let selectedStartMode = 'demo';
+        let currentTxType = 'income';
+        let currentTxFilter = 'all';
+        let chatConversationHistory = [];
+        let lastChatContext = { amount: null, days: null, usedTopicIds: new Set() };
+        let isAiResponding = false;
+
+        function todayStr() {
+            const d = new Date();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${d.getFullYear()}-${m}-${day}`;
+        }
+
+        function formatMXN(num) {
+            const val = Number(num) || 0;
+            return '$' + val.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function showToast(msg, type = 'emerald') {
+            try {
+                const container = document.getElementById('toast-container');
+                if (!container) return;
+                const div = document.createElement('div');
+                div.className = `toast ${type}`;
+                div.textContent = msg;
+                container.appendChild(div);
+                setTimeout(() => {
+                    div.style.opacity = '0';
+                    div.style.transition = 'opacity 0.25s';
+                    setTimeout(() => div.remove(), 260);
+                }, 2800);
+            } catch (e) {}
+        }
+
+        function persistCurrentUser() {
+            if (!currentUser || !currentUser.email) return;
+            const db = loadUsersDB();
+            db[currentUser.email.toLowerCase()] = JSON.parse(JSON.stringify(currentUser));
+            saveUsersDB(db);
+        }
+
+        function escapeHTML(str) {
+            return String(str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        /* =========================================================================
+           4. REGISTRO E INICIO DE SESIÓN CON AISLAMIENTO TOTAL AL CAMBIAR CUENTA
+           ========================================================================= */
+        function selectStartMode(mode) {
+            selectedStartMode = mode;
+            const btnDemo = document.getElementById('btn-mode-demo');
+            const btnEmpty = document.getElementById('btn-mode-empty');
+            if (!btnDemo || !btnEmpty) return;
+
+            if (mode === 'demo') {
+                btnDemo.classList.add('active');
+                btnDemo.querySelector('strong').textContent = '✓ Con datos de ejemplo';
+                btnEmpty.classList.remove('active');
+                btnEmpty.querySelector('strong').textContent = '○ Empezar en $0.00';
+            } else {
+                btnEmpty.classList.add('active');
+                btnEmpty.querySelector('strong').textContent = '✓ Empezar en $0.00';
+                btnDemo.classList.remove('active');
+                btnDemo.querySelector('strong').textContent = '○ Con datos de ejemplo';
+            }
+        }
+
+        function createDefaultUserData(name, email, mode) {
+            const today = todayStr();
+            if (mode === 'empty') {
+                return {
+                    name,
+                    email,
+                    transactions: [],
+                    goals: [],
+                    completedLevels: [],
+                    currentLevel: 1
+                };
+            }
+            return {
+                name,
+                email,
+                transactions: [
+                    { id: 't1', type: 'income', category: 'Apoyo / Mesada', desc: 'Apoyo semanal recibido', amount: 500, date: today },
+                    { id: 't2', type: 'expense', category: 'Ahorro Meta', desc: 'Ahorro: Fondo de Emergencia', amount: 100, date: today, isSavingsTransfer: true, goalId: 'g1' }
+                ],
+                goals: [
+                    { id: 'g1', name: 'Fondo de Emergencia', target: 1500, saved: 100, note: 'Respaldo personal', icon: '🛡️' },
+                    { id: 'g2', name: 'Proyecto / Caja de Ahorro', target: 3000, saved: 0, note: 'Para metas futuras', icon: '🏦' }
+                ],
+                completedLevels: [],
+                currentLevel: 1
+            };
+        }
+
+        function completeOnboarding() {
+            try {
+                const nameInput = document.getElementById('reg-name').value.trim();
+                const emailInput = document.getElementById('reg-email').value.trim().toLowerCase();
+
+                if (!nameInput) {
+                    showToast('Escribe tu nombre o cómo quieres que te llame 🐷', 'rose');
+                    document.getElementById('reg-name').focus();
+                    return;
+                }
+                if (!emailInput || !emailInput.includes('@')) {
+                    showToast('Ingresa un correo electrónico válido para guardar tus datos', 'rose');
+                    document.getElementById('reg-email').focus();
+                    return;
+                }
+
+                // Limpiar estado previo en memoria antes de cargar o crear la cuenta
+                currentUser = null;
+                chatConversationHistory = [];
+                lastChatContext = { amount: null, days: null, usedTopicIds: new Set() };
+
+                const db = loadUsersDB();
+                if (db[emailInput]) {
+                    currentUser = JSON.parse(JSON.stringify(db[emailInput]));
+                    currentUser.name = nameInput;
+                    showToast(`¡Qué gusto verte de nuevo, ${nameInput}! Cuenta cargada ✨`, 'emerald');
+                } else {
+                    currentUser = createDefaultUserData(nameInput, emailInput, selectedStartMode);
+                    showToast(`¡Bienvenido a MoneyGo, ${nameInput}! Cuenta nueva lista 🐷✨`, 'emerald');
+                }
+
+                persistCurrentUser();
+                safeSetItem(ACTIVE_EMAIL_KEY, emailInput);
+                openAppShell();
+            } catch (err) {
+                showToast('Ocurrió un detalle al iniciar. Intenta de nuevo.', 'rose');
+            }
+        }
+
+        function openAppShell() {
+            document.getElementById('onboarding-screen').classList.add('hidden');
+            document.getElementById('app-shell').classList.remove('hidden');
+
+            document.getElementById('header-user-pill').textContent = `👤 ${currentUser.name}`;
+            document.getElementById('mobile-user-label').textContent = `👤 ${currentUser.name}`;
+            document.getElementById('nav-subtitle').textContent = currentUser.email;
+            document.getElementById('welcome-heading').textContent = `¡Hola, ${currentUser.name}! 👋`;
+
+            document.getElementById('tx-date').value = todayStr();
+            currentTxFilter = 'all';
+            document.querySelectorAll('.tx-filters .filter-chip').forEach(chip => {
+                chip.classList.toggle('active', chip.dataset.filter === 'all');
+            });
+            document.getElementById('tx-search').value = '';
+
+            setTxType('income');
+            switchTab('dashboard');
+            refreshAllUI();
+            initChatWelcome();
+            initTipsSection();
+            initWordSearchLevel(currentUser.currentLevel || 1);
+        }
+
+        function logoutUser() {
+            // Reinicia por completo la memoria de la sesión actual para no arrastrar datos
+            safeRemoveItem(ACTIVE_EMAIL_KEY);
+            currentUser = null;
+            chatConversationHistory = [];
+            lastChatContext = { amount: null, days: null, usedTopicIds: new Set() };
+            wsGrid = [];
+            wsTargetWords = [];
+            wsFoundWords = new Set();
+            wsCellColors = {};
+
+            document.getElementById('reg-name').value = '';
+            document.getElementById('reg-email').value = '';
+            document.getElementById('chat-window').innerHTML = '';
+            document.getElementById('tx-list').innerHTML = '';
+            document.getElementById('goals-grid').innerHTML = '';
+            selectStartMode('demo');
+
+            document.getElementById('app-shell').classList.add('hidden');
+            document.getElementById('onboarding-screen').classList.remove('hidden');
+            showToast('Sesión cerrada y memoria reiniciada. Ingresa tu cuenta 🐷', 'slate');
+        }
+
+        /* =========================================================================
+           5. NAVEGACIÓN POR PESTAÑAS
+           ========================================================================= */
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.tab === tabName);
+            });
+
+            const panel = document.getElementById(`tab-${tabName}`);
+            if (panel) panel.classList.remove('hidden');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (tabName === 'stats') {
+                renderStatsAndCharts();
+            } else if (tabName === 'ai') {
+                updateAIDiagnosisBanner();
+            }
+        }
+
+        /* =========================================================================
+           6. CÁLCULOS FINANCIEROS Y MOVIMIENTOS
+           ========================================================================= */
+        function getFinancialSummary() {
+            if (!currentUser) {
+                return { totalIncome: 0, totalExpense: 0, operatingExpense: 0, savingsExpense: 0, balance: 0, totalGoalsSaved: 0 };
+            }
+            const txs = currentUser.transactions || [];
+            let totalIncome = 0;
+            let totalExpense = 0;
+            let operatingExpense = 0;
+            let savingsExpense = 0;
+
+            txs.forEach(t => {
+                const amt = Number(t.amount) || 0;
+                if (t.type === 'income') {
+                    totalIncome += amt;
+                } else {
+                    totalExpense += amt;
+                    if (t.category === 'Ahorro Meta' || t.isSavingsTransfer) {
+                        savingsExpense += amt;
+                    } else {
+                        operatingExpense += amt;
+                    }
+                }
+            });
+
+            const balance = totalIncome - totalExpense;
+            const totalGoalsSaved = (currentUser.goals || []).reduce((sum, g) => sum + (Number(g.saved) || 0), 0);
+
+            return {
+                totalIncome,
+                totalExpense,
+                operatingExpense,
+                savingsExpense,
+                balance,
+                totalGoalsSaved
+            };
+        }
+
+        function setTxType(type) {
+            currentTxType = type;
+            const btnInc = document.getElementById('btn-type-income');
+            const btnExp = document.getElementById('btn-type-expense');
+            const saveBtn = document.getElementById('btn-save-tx');
+            const catSelect = document.getElementById('tx-category');
+
+            btnInc.className = 'type-btn' + (type === 'income' ? ' active-income' : '');
+            btnExp.className = 'type-btn' + (type === 'expense' ? ' active-expense' : '');
+
+            if (type === 'income') {
+                saveBtn.className = 'btn-solid btn-emerald btn-full';
+                saveBtn.textContent = '+ Guardar Ingreso / Apoyo';
+            } else {
+                saveBtn.className = 'btn-solid btn-rose btn-full';
+                saveBtn.textContent = '− Registrar Gasto';
+            }
+
+            catSelect.innerHTML = CATEGORIES[type].map(c =>
+                `<option value="${c.id}">${c.icon} ${c.id}</option>`
+            ).join('');
+        }
+
+        function addTransaction() {
+            if (!currentUser) return;
+            const amount = parseFloat(document.getElementById('tx-amount').value);
+            const category = document.getElementById('tx-category').value;
+            const desc = document.getElementById('tx-desc').value.trim();
+            const date = document.getElementById('tx-date').value || todayStr();
+
+            if (!amount || amount <= 0) {
+                showToast('Ingresa un monto válido mayor a $0', 'rose');
+                return;
+            }
+
+            const finalDesc = desc || category;
+            currentUser.transactions.unshift({
+                id: 'tx_' + Date.now(),
+                type: currentTxType,
+                category,
+                desc: finalDesc,
+                amount,
+                date
+            });
+
+            document.getElementById('tx-amount').value = '';
+            document.getElementById('tx-desc').value = '';
+
+            persistCurrentUser();
+            refreshAllUI();
+            showToast(
+                currentTxType === 'income'
+                    ? `¡Ingreso de ${formatMXN(amount)} sumado! ✨`
+                    : `Gasto de ${formatMXN(amount)} registrado.`,
+                currentTxType === 'income' ? 'emerald' : 'rose'
+            );
+        }
+
+        function deleteTransaction(txId) {
+            if (!currentUser) return;
+            const idx = currentUser.transactions.findIndex(t => t.id === txId);
+            if (idx === -1) return;
+            const tx = currentUser.transactions[idx];
+
+            if (tx.isSavingsTransfer && tx.goalId) {
+                const goal = currentUser.goals.find(g => g.id === tx.goalId);
+                if (goal) {
+                    goal.saved = Math.max(0, (Number(goal.saved) || 0) - Number(tx.amount));
+                }
+            }
+
+            currentUser.transactions.splice(idx, 1);
+            persistCurrentUser();
+            refreshAllUI();
+            showToast('Movimiento eliminado', 'slate');
+        }
+
+        function setTxFilter(filter) {
+            currentTxFilter = filter;
+            document.querySelectorAll('.tx-filters .filter-chip').forEach(chip => {
+                chip.classList.toggle('active', chip.dataset.filter === filter);
+            });
+            renderTransactions();
+        }
+
+        function getCategoryEmoji(type, categoryName) {
+            const list = CATEGORIES[type] || [];
+            const found = list.find(c => c.id === categoryName);
+            return found ? found.icon : (type === 'income' ? '💵' : '💸');
+        }
+
+        function renderTransactions() {
+            if (!currentUser) return;
+            const listEl = document.getElementById('tx-list');
+            const query = (document.getElementById('tx-search').value || '').trim().toLowerCase();
+
+            const filtered = (currentUser.transactions || []).filter(t => {
+                if (currentTxFilter === 'income' && t.type !== 'income') return false;
+                if (currentTxFilter === 'expense' && t.type !== 'expense') return false;
+                if (currentTxFilter === 'savings' && t.category !== 'Ahorro Meta' && !t.isSavingsTransfer) return false;
+                if (query) {
+                    const hay = `${t.desc} ${t.category} ${t.date}`.toLowerCase();
+                    if (!hay.includes(query)) return false;
+                }
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                listEl.innerHTML = `<div style="text-align:center; padding:28px; color:var(--slate-400); font-size:13px;">No hay movimientos que mostrar en este filtro.</div>`;
+                return;
+            }
+
+            listEl.innerHTML = filtered.map(t => {
+                const isSavings = t.category === 'Ahorro Meta' || t.isSavingsTransfer;
+                const sign = t.type === 'income' ? '+' : '−';
+                const amtClass = t.type === 'income' ? 'inc' : (isSavings ? 'sav' : 'exp');
+                const emoji = getCategoryEmoji(t.type, t.category);
+
+                return `
+                    <div class="tx-item ${isSavings ? 'savings-tx' : ''}">
+                        <div class="tx-left">
+                            <div class="tx-icon">${emoji}</div>
+                            <div style="min-width:0;">
+                                <div class="tx-title">${escapeHTML(t.desc)}</div>
+                                <div class="tx-meta">${escapeHTML(t.category)} • ${escapeHTML(t.date)}</div>
+                            </div>
+                        </div>
+                        <div class="tx-right">
+                            <span class="tx-amount ${amtClass}">${sign}${formatMXN(t.amount)}</span>
+                            <button type="button" class="btn-del" title="Eliminar" onclick="deleteTransaction('${t.id}')">🗑️</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        /* =========================================================================
+           7. METAS DE AHORRO (REFLEJANDO CADA ABONO COMO GASTO EN 'Ahorro Meta')
+           ========================================================================= */
+        function openGoalModal() {
+            document.getElementById('goal-name').value = '';
+            document.getElementById('goal-target').value = '';
+            document.getElementById('goal-note').value = '';
+            document.getElementById('goal-modal').classList.remove('hidden');
+        }
+        function closeGoalModal() {
+            document.getElementById('goal-modal').classList.add('hidden');
+        }
+
+        function createGoal() {
+            if (!currentUser) return;
+            const name = document.getElementById('goal-name').value.trim();
+            const target = parseFloat(document.getElementById('goal-target').value);
+            const note = document.getElementById('goal-note').value.trim();
+            const icon = document.getElementById('goal-icon').value;
+
+            if (!name) {
+                showToast('Escribe un nombre para tu meta', 'rose');
+                return;
+            }
+            if (!target || target <= 0) {
+                showToast('Ingresa un monto objetivo válido', 'rose');
+                return;
+            }
+
+            currentUser.goals.push({
+                id: 'goal_' + Date.now(),
+                name,
+                target,
+                saved: 0,
+                note,
+                icon
+            });
+
+            persistCurrentUser();
+            closeGoalModal();
+            refreshAllUI();
+            showToast(`¡Meta "${name}" creada! 🐷`, 'emerald');
+        }
+
+        function depositToGoal(goalId, amount) {
+            if (!currentUser) return;
+            const amt = Number(amount);
+            if (!amt || amt <= 0) {
+                showToast('Ingresa un monto válido para ahorrar', 'rose');
+                return;
+            }
+
+            const { balance } = getFinancialSummary();
+            if (amt > balance) {
+                showToast(`Saldo insuficiente (${formatMXN(balance)} disponibles)`, 'rose');
+                return;
+            }
+
+            const goal = currentUser.goals.find(g => g.id === goalId);
+            if (!goal) return;
+
+            goal.saved = (Number(goal.saved) || 0) + amt;
+
+            // Registra automáticamente el movimiento de salida/gasto en el historial
+            currentUser.transactions.unshift({
+                id: 'tx_sav_' + Date.now(),
+                type: 'expense',
+                category: 'Ahorro Meta',
+                desc: `Ahorro: ${goal.name}`,
+                amount: amt,
+                date: todayStr(),
+                isSavingsTransfer: true,
+                goalId: goal.id
+            });
+
+            persistCurrentUser();
+            refreshAllUI();
+            showToast(`¡Oink! Ahorraste ${formatMXN(amt)} en "${goal.name}" (reflejado como gasto) 🐷✨`, 'pink');
+        }
+
+        function depositCustomGoal(goalId) {
+            const input = document.getElementById(`custom-goal-amt-${goalId}`);
+            if (!input) return;
+            const val = parseFloat(input.value);
+            input.value = '';
+            depositToGoal(goalId, val);
+        }
+
+        function deleteGoal(goalId) {
+            if (!currentUser) return;
+            currentUser.goals = currentUser.goals.filter(g => g.id !== goalId);
+            persistCurrentUser();
+            refreshAllUI();
+            showToast('Meta eliminada', 'slate');
+        }
+
+        function renderGoals() {
+            if (!currentUser) return;
+            const grid = document.getElementById('goals-grid');
+            const goals = currentUser.goals || [];
+            const { balance, totalGoalsSaved } = getFinancialSummary();
+
+            document.getElementById('sav-total-saved').textContent = formatMXN(totalGoalsSaved);
+            document.getElementById('sav-available').textContent = formatMXN(balance);
+            document.getElementById('sav-goals-count').textContent = `${goals.length} meta(s) activa(s)`;
+
+            const totalTargets = goals.reduce((s, g) => s + (Number(g.target) || 0), 0);
+            const globalPct = totalTargets > 0 ? Math.min(100, Math.round((totalGoalsSaved / totalTargets) * 100)) : 0;
+            document.getElementById('sav-global-pct').textContent = `${globalPct}%`;
+
+            if (goals.length === 0) {
+                grid.innerHTML = `<div class="card" style="grid-column:1/-1; text-align:center; padding:32px; color:var(--slate-500);">Aún no tienes metas de ahorro. ¡Crea tu primera meta con el botón rosa de arriba! 🐷</div>`;
+                return;
+            }
+
+            grid.innerHTML = goals.map(g => {
+                const pct = Math.min(100, Math.round(((Number(g.saved) || 0) / (Number(g.target) || 1)) * 100));
+                const done = pct >= 100;
+                return `
+                    <div class="card">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+                            <div style="display:flex; gap:10px; align-items:center;">
+                                <div style="font-size:28px;">${g.icon}</div>
+                                <div>
+                                    <div style="font-size:16px; font-weight:900; color:var(--slate-900);">${escapeHTML(g.name)}</div>
+                                    <div style="font-size:12px; color:var(--slate-500);">
+                                        ${formatMXN(g.saved)} de <strong>${formatMXN(g.target)}</strong> (${pct}%)
+                                    </div>
+                                    ${g.note ? `<div style="font-size:11px; color:var(--slate-400); margin-top:2px;">📌 ${escapeHTML(g.note)}</div>` : ''}
+                                </div>
+                            </div>
+                            <button type="button" class="btn-del" onclick="deleteGoal('${g.id}')" title="Eliminar meta">🗑️</button>
+                        </div>
+
+                        <div class="progress-track">
+                            <div class="progress-fill" style="width:${pct}%;"></div>
+                        </div>
+
+                        <div style="font-size:11px; font-weight:700; color:${done ? 'var(--emerald-600)' : 'var(--pink-600)'};">
+                            ${done ? '🎉 ¡Meta alcanzada! Puedes seguir sumando si deseas.' : `Faltan ${formatMXN(Math.max(0, g.target - g.saved))} para lograrlo`}
+                        </div>
+
+                        <div class="quick-add-row">
+                            <button type="button" class="btn-mini" onclick="depositToGoal('${g.id}', 50)">+ $50</button>
+                            <button type="button" class="btn-mini" onclick="depositToGoal('${g.id}', 100)">+ $100</button>
+                            <button type="button" class="btn-mini" onclick="depositToGoal('${g.id}', 200)">+ $200</button>
+                            <input type="number" id="custom-goal-amt-${g.id}" min="1" placeholder="Otro $" style="width:84px; padding:5px 8px; border-radius:10px; border:1px solid var(--slate-200); font-size:12px;">
+                            <button type="button" class="btn-mini" style="background:var(--emerald-600); color:#fff; border-color:var(--emerald-600);" onclick="depositCustomGoal('${g.id}')">Abonar</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function refreshAllUI() {
+            const { totalIncome, totalExpense, savingsExpense, balance, totalGoalsSaved } = getFinancialSummary();
+
+            document.getElementById('kpi-balance').textContent = formatMXN(balance);
+            document.getElementById('kpi-income').textContent = formatMXN(totalIncome);
+            document.getElementById('kpi-expense').textContent = formatMXN(totalExpense);
+            document.getElementById('kpi-piggy').textContent = formatMXN(totalGoalsSaved);
+            document.getElementById('kpi-expense-note').textContent =
+                savingsExpense > 0
+                    ? `Incluye ${formatMXN(savingsExpense)} en Ahorro Meta`
+                    : 'Gastos registrados en tu cuenta';
+
+            const sbBal = document.getElementById('sidebar-balance');
+            const sbSav = document.getElementById('sidebar-saved');
+            if (sbBal) sbBal.textContent = formatMXN(balance);
+            if (sbSav) sbSav.textContent = `🐷 Alcancía: ${formatMXN(totalGoalsSaved)}`;
+
+            renderTransactions();
+            renderGoals();
+            updateAIDiagnosisBanner();
+        }
+
+        /* =========================================================================
+           8. ESTADÍSTICAS CON CANVAS HTML5 100% NATIVO
+           ========================================================================= */
+        function renderStatsAndCharts() {
+            if (!currentUser) return;
+            const { totalIncome, operatingExpense, savingsExpense } = getFinancialSummary();
+            const expenses = (currentUser.transactions || []).filter(t => t.type === 'expense');
+
+            const byCat = {};
+            expenses.forEach(e => {
+                byCat[e.category] = (byCat[e.category] || 0) + (Number(e.amount) || 0);
+            });
+
+            const entries = Object.entries(byCat).sort((a, b) => b[1] - a[1]);
+            const savingsRate = totalIncome > 0 ? Math.round((savingsExpense / totalIncome) * 100) : 0;
+            const avgExp = expenses.length > 0 ? (operatingExpense + savingsExpense) / expenses.length : 0;
+
+            document.getElementById('stat-savings-rate').textContent = `${savingsRate}%`;
+            document.getElementById('stat-avg-expense').textContent = formatMXN(avgExp);
+
+            const leakCats = entries.filter(([cat]) => cat !== 'Ahorro Meta');
+            if (leakCats.length > 0) {
+                document.getElementById('stat-top-cat').textContent = leakCats[0][0];
+                document.getElementById('stat-top-cat-amt').textContent = `${formatMXN(leakCats[0][1])} acumulados`;
+            } else if (entries.length > 0) {
+                document.getElementById('stat-top-cat').textContent = entries[0][0];
+                document.getElementById('stat-top-cat-amt').textContent = `${formatMXN(entries[0][1])} acumulados`;
+            } else {
+                document.getElementById('stat-top-cat').textContent = 'Sin gastos aún';
+                document.getElementById('stat-top-cat-amt').textContent = '$0.00 acumulados';
+            }
+
+            drawDonutChart(entries);
+            drawBarChart(totalIncome, operatingExpense, savingsExpense);
+        }
+
+        function drawDonutChart(entries) {
+            const canvas = document.getElementById('donut-canvas');
+            const legend = document.getElementById('donut-legend');
+            if (!canvas || !legend) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+
+            const total = entries.reduce((s, e) => s + e[1], 0);
+            if (total <= 0) {
+                ctx.beginPath();
+                ctx.arc(w / 2, h / 2, 95, 0, Math.PI * 2);
+                ctx.strokeStyle = '#e2e8f0';
+                ctx.lineWidth = 34;
+                ctx.stroke();
+                ctx.fillStyle = '#64748b';
+                ctx.font = 'bold 13px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('Sin gastos registrados', w / 2, h / 2 + 4);
+                legend.innerHTML = '';
+                return;
+            }
+
+            let startAngle = -Math.PI / 2;
+            entries.forEach(([cat, val]) => {
+                const slice = (val / total) * Math.PI * 2;
+                const color = CATEGORY_COLORS[cat] || '#64748b';
+                ctx.beginPath();
+                ctx.arc(w / 2, h / 2, 95, startAngle, startAngle + slice);
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 36;
+                ctx.stroke();
+                startAngle += slice;
+            });
+
+            ctx.fillStyle = '#0f172a';
+            ctx.font = '900 16px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(formatMXN(total), w / 2, h / 2 + 2);
+            ctx.fillStyle = '#64748b';
+            ctx.font = 'bold 11px sans-serif';
+            ctx.fillText('TOTAL SALIDAS', w / 2, h / 2 + 18);
+
+            legend.innerHTML = entries.map(([cat, val]) => {
+                const color = CATEGORY_COLORS[cat] || '#64748b';
+                const pct = Math.round((val / total) * 100);
+                return `
+                    <div class="legend-item">
+                        <span><span class="legend-dot" style="background:${color};"></span>${escapeHTML(cat)}</span>
+                        <strong>${pct}%</strong>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function drawBarChart(income, opExpense, savExpense) {
+            const canvas = document.getElementById('bar-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+
+            const items = [
+                { label: 'Ingresos', val: income, color: '#059669' },
+                { label: 'Gastos Diarios', val: opExpense, color: '#e11d48' },
+                { label: 'Ahorro Metas', val: savExpense, color: '#db2777' }
+            ];
+            const maxVal = Math.max(...items.map(i => i.val), 100);
+            const chartBottom = h - 42;
+            const maxBarHeight = h - 85;
+            const barWidth = 64;
+            const gap = (w - barWidth * 3) / 4;
+
+            ctx.strokeStyle = '#cbd5e1';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(20, chartBottom);
+            ctx.lineTo(w - 20, chartBottom);
+            ctx.stroke();
+
+            items.forEach((item, idx) => {
+                const x = gap + idx * (barWidth + gap);
+                const barH = (item.val / maxVal) * maxBarHeight;
+                const y = chartBottom - barH;
+
+                ctx.fillStyle = item.color;
+                ctx.beginPath();
+                if (ctx.roundRect) {
+                    ctx.roundRect(x, y, barWidth, Math.max(barH, 4), [10, 10, 0, 0]);
+                } else {
+                    ctx.rect(x, y, barWidth, Math.max(barH, 4));
+                }
+                ctx.fill();
+
+                ctx.fillStyle = '#0f172a';
+                ctx.font = 'bold 11px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(formatMXN(item.val), x + barWidth / 2, y - 8);
+
+                ctx.fillStyle = '#475569';
+                ctx.font = 'bold 12px sans-serif';
+                ctx.fillText(item.label, x + barWidth / 2, chartBottom + 20);
+            });
+        }
+
+        /* =========================================================================
+           9. MONICERDITO IA — "TU ASISTENTE FAVORITO"
+              (EVALUADOR MATEMÁTICO NATURAL/SIMBÓLICO + ESCENARIOS HIPOTÉTICOS +
+               CONSULTAS DE SALDO REAL + RESPUESTAS ABIERTAS + GEMINI API)
+           ========================================================================= */
+        function updateAIDiagnosisBanner() {
+            if (!currentUser) return;
+            const { totalIncome, operatingExpense, savingsExpense, balance } = getFinancialSummary();
+            const diagEl = document.getElementById('ai-live-diagnosis');
+            if (!diagEl) return;
+
+            if (totalIncome === 0 && operatingExpense === 0) {
+                diagEl.textContent = `¡Oink, ${currentUser.name}! Pregúntame lo que sea: operaciones ("25 por 35"), escenarios hipotéticos o cómo mejorar tus finanzas.`;
+                return;
+            }
+
+            const savPct = totalIncome > 0 ? Math.round((savingsExpense / totalIncome) * 100) : 0;
+            diagEl.textContent = `Saldo libre: ${formatMXN(balance)} • Ahorrado en metas: ${formatMXN(savingsExpense)} (${savPct}%) • Gastos diarios: ${formatMXN(operatingExpense)}.`;
+        }
+
+        function initChatWelcome() {
+            const win = document.getElementById('chat-window');
+            if (!win || !currentUser) return;
+            win.innerHTML = '';
+            chatConversationHistory = [];
+            lastChatContext = { amount: null, days: null, usedTopicIds: new Set() };
+            appendBotMessage(
+                `¡Oink oink, ${currentUser.name}! 🐷✨ Soy MoniCerdito, Tu Asistente Favorito.\n\nEstoy listo para responder cualquier pregunta sin límites:\n• Cálculos matemáticos libres (con signos o palabras): "25 por 35", "1200 entre 4", "15% de 800", "raíz cuadrada de 144", "(450 + 320) * 2".\n• Escenarios hipotéticos independientes de tu saldo: "tengo 100 pesos para 5 días sin tomar en cuenta el dinero que tengo", "si ahorro 20 diarios por 6 meses cuánto junto", "quiero juntar 3000 en 4 meses".\n• Consultas sobre tu dinero real en MoneyGo: "¿cuánto llevo gastado?", "¿en qué gasto más?", "¿me alcanza para comprar algo de $300?".\n• Consejos de ahorro, inversiones, cajas de ahorro en la Mixteca (como Acreimex) y dudas generales.\n\n¿Qué calculamos o resolvemos hoy?`
+            );
+        }
+
+        function appendUserMessage(text) {
+            const win = document.getElementById('chat-window');
+            const div = document.createElement('div');
+            div.className = 'msg-bubble msg-user fade-in';
+            div.textContent = text;
+            win.appendChild(div);
+            win.scrollTop = win.scrollHeight;
+        }
+
+        function appendBotMessage(text) {
+            const win = document.getElementById('chat-window');
+            const div = document.createElement('div');
+            div.className = 'msg-bubble msg-bot fade-in';
+            div.innerHTML = `
+                <div class="msg-bot-header">
+                    <span>🐷 MoniCerdito</span>
+                    <span class="msg-engine-tag">Tu Asistente Favorito</span>
+                </div>
+                <div>${escapeHTML(text)}</div>
+            `;
+            win.appendChild(div);
+            win.scrollTop = win.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const win = document.getElementById('chat-window');
+            const div = document.createElement('div');
+            div.id = 'ai-typing-indicator';
+            div.className = 'msg-bubble msg-bot fade-in';
+            div.innerHTML = `<div class="msg-bot-header"><span>🐷 MoniCerdito calculando...</span></div><div class="typing-dots"><span></span><span></span><span></span></div>`;
+            win.appendChild(div);
+            win.scrollTop = win.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const el = document.getElementById('ai-typing-indicator');
+            if (el) el.remove();
+        }
+
+        function sendQuickPrompt(text) {
+            document.getElementById('chat-input').value = text;
+            handleUserChat();
+        }
+
+        function buildFinancialContextPrompt() {
+            const s = getFinancialSummary();
+            const txs = (currentUser.transactions || []).slice(0, 15).map(t =>
+                `- [${t.date}] ${t.type === 'income' ? 'INGRESO' : 'GASTO'} (${t.category}): ${t.desc} = $${t.amount}`
+            ).join('\n');
+
+            const goals = (currentUser.goals || []).map(g =>
+                `- ${g.name}: $${g.saved} ahorrados de $${g.target} (${Math.min(100, Math.round((g.saved / (g.target || 1)) * 100))}%)`
+            ).join('\n');
+
+            return `Eres MoniCerdito ("Tu Asistente Favorito"), un asistente virtual Kawaii súper inteligente, amable y abierto dentro de MoneyGo.
+Usuario: ${currentUser.name}
+Datos de su cuenta en MoneyGo:
+- Ingresos totales: ${formatMXN(s.totalIncome)}
+- Gastos operativos diarios: ${formatMXN(s.operatingExpense)}
+- Ahorro apartado en metas: ${formatMXN(s.savingsExpense)}
+- Saldo disponible libre hoy: ${formatMXN(s.balance)}
+
+Metas de ahorro actuales:
+${goals || 'Ninguna meta creada todavía.'}
+
+Últimos movimientos:
+${txs || 'Sin movimientos registrados todavía.'}
+
+REGLAS:
+1. Si el usuario pide cualquier operación matemática (ej. "25 por 35", "1200 entre 4", porcentajes, raíces, potencias), resuélvela directamente con exactitud y paso a paso SIN meter consejos financieros no solicitados.
+2. Si el usuario plantea un escenario hipotético sobre dinero (ej. "tengo 100 pesos para 5 días sin tomar en cuenta el dinero que tengo", "si ahorro 20 diarios por 6 meses cuánto junto", "quiero juntar 3000 en 4 meses"), calcula exclusivamente sobre las cantidades propuestas (sin atarlo a su saldo de MoneyGo) y dale un plan práctico.
+3. Si el usuario pregunta por su dinero real, sus gastos, metas o compras ("¿me alcanza para...?"), analiza sus datos reales de MoneyGo.
+4. Responde cualquier otra pregunta general, de negocios, economía (incluyendo cajas de ahorro populares en la Mixteca como Acreimex) o cotidiana con claridad y ejemplos en pesos mexicanos (MXN).`;
+        }
+
+        async function queryGeminiBrain(userQuestion) {
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            const systemText = buildFinancialContextPrompt();
+            const contents = [
+                ...chatConversationHistory.slice(-10),
+                { role: 'user', parts: [{ text: userQuestion }] }
+            ];
+
+            const payload = {
+                contents,
+                systemInstruction: {
+                    parts: [{ text: systemText }]
+                },
+                generationConfig: {
+                    temperature: 0.7,
+                    maxOutputTokens: 900
+                }
+            };
+
+            const delays = [1000, 2000];
+            for (let attempt = 0; attempt <= delays.length; attempt++) {
+                try {
+                    const controller = new AbortController();
+                    const timer = setTimeout(() => controller.abort(), 7500);
+                    const resp = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload),
+                        signal: controller.signal
+                    });
+                    clearTimeout(timer);
+
+                    if (!resp.ok) {
+                        if (attempt < delays.length) {
+                            await new Promise(r => setTimeout(r, delays[attempt]));
+                            continue;
+                        }
+                        return null;
+                    }
+
+                    const data = await resp.json();
+                    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+                    if (text && text.trim().length > 0) {
+                        return text.trim();
+                    }
+                    return null;
+                } catch (err) {
+                    if (attempt < delays.length) {
+                        await new Promise(r => setTimeout(r, delays[attempt]));
+                    } else {
+                        return null;
+                    }
+                }
+            }
+            return null;
+        }
+
+        async function handleUserChat() {
+            if (isAiResponding) return;
+            const input = document.getElementById('chat-input');
+            const sendBtn = document.getElementById('btn-send-chat');
+            const q = input.value.trim();
+            if (!q) return;
+
+            input.value = '';
+            appendUserMessage(q);
+
+            isAiResponding = true;
+            sendBtn.disabled = true;
+            showTypingIndicator();
+
+            // 1. Evaluador Matemático Natural y Simbólico Completo (instantáneo)
+            const directMath = tryEvaluateMathExpression(q);
+            if (directMath) {
+                removeTypingIndicator();
+                chatConversationHistory.push({ role: 'user', parts: [{ text: q }] });
+                chatConversationHistory.push({ role: 'model', parts: [{ text: directMath }] });
+                appendBotMessage(directMath);
+                isAiResponding = false;
+                sendBtn.disabled = false;
+                input.focus();
+                return;
+            }
+
+            // 2. Conexión abierta con Gemini API cuando hay red
+            const geminiReply = await queryGeminiBrain(q);
+            removeTypingIndicator();
+
+            if (geminiReply) {
+                chatConversationHistory.push({ role: 'user', parts: [{ text: q }] });
+                chatConversationHistory.push({ role: 'model', parts: [{ text: geminiReply }] });
+                appendBotMessage(geminiReply);
+            } else {
+                // 3. Motor Conversacional Universal Local (Escenarios Hipotéticos + Saldo Real + Enciclopedia)
+                const localReply = generateUniversalLocalReply(q);
+                chatConversationHistory.push({ role: 'user', parts: [{ text: q }] });
+                chatConversationHistory.push({ role: 'model', parts: [{ text: localReply }] });
+                appendBotMessage(localReply);
+            }
+
+            isAiResponding = false;
+            sendBtn.disabled = false;
+            input.focus();
+        }
+
+        function formatNumberClean(num) {
+            if (Number.isInteger(num)) return num.toLocaleString('es-MX');
+            return Number(num.toFixed(6)).toLocaleString('es-MX', { maximumFractionDigits: 6 });
+        }
+
+        function tryEvaluateMathExpression(rawText) {
+            const norm = rawText
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .trim();
+
+            // Si contiene unidades de tiempo o contexto financiero de presupuesto/ahorro, pasa al analizador de escenarios
+            if (/(?:dias?|semanas?|mes(?:es)?|anos?|ahorr|gast|sueldo|quincena|dinero|saldo|meta|presupuesto|alcanza|comprar)/.test(norm)) {
+                return null;
+            }
+
+            // Raíz cuadrada pura
+            const pureSqrt = norm.match(/^(?:cual es la |cuanto es la |calcula la )?raiz(?: cuadrada)? de\s*(\d+(?:[.,]\d+)?)[?¡!.\s]*$/);
+            if (pureSqrt) {
+                const val = parseFloat(pureSqrt[1].replace(',', '.'));
+                if (!isNaN(val) && val >= 0) {
+                    const res = Math.sqrt(val);
+                    return `🧮 Resultado exacto: ${formatNumberClean(res)}\n\n• Operación: √${formatNumberClean(val)}\n• Paso a paso: ${formatNumberClean(res)} × ${formatNumberClean(res)} = ${formatNumberClean(val)}.`;
+                }
+            }
+
+            // Potencia pura
+            const purePow = norm.match(/^(?:cuanto es |calcula )?(\d+(?:[.,]\d+)?)\s*(?:al cuadrado|al cubo|elevado a(?: la)?\s*(\d+(?:[.,]\d+)?))[?¡!.\s]*$/);
+            if (purePow) {
+                const base = parseFloat(purePow[1].replace(',', '.'));
+                const exp = norm.includes('al cuadrado') ? 2 : (norm.includes('al cubo') ? 3 : parseFloat((purePow[2] || '2').replace(',', '.')));
+                if (!isNaN(base) && !isNaN(exp)) {
+                    const res = Math.pow(base, exp);
+                    return `🧮 Resultado exacto: ${formatNumberClean(res)}\n\n• Operación: ${formatNumberClean(base)}^${formatNumberClean(exp)}`;
+                }
+            }
+
+            // Porcentaje puro
+            const purePct = norm.match(/^(?:cuanto es |calcula |dime )?(?:el )?(\d+(?:[.,]\d+)?)\s*(?:%|por ciento|porciento)\s*(?:de|del)\s*(\d+(?:[.,]\d+)?)[?¡!.\s]*$/);
+            if (purePct) {
+                const pct = parseFloat(purePct[1].replace(',', '.'));
+                const base = parseFloat(purePct[2].replace(',', '.'));
+                if (!isNaN(pct) && !isNaN(base)) {
+                    const res = (pct / 100) * base;
+                    return `🧮 Resultado exacto: ${formatNumberClean(res)}\n\n• Operación: ${formatNumberClean(pct)}% de ${formatNumberClean(base)}\n• Paso a paso: (${formatNumberClean(pct)} ÷ 100) × ${formatNumberClean(base)} = ${formatNumberClean(res)}.`;
+                }
+            }
+
+            // Conversión de lenguaje natural y operaciones combinadas
+            let expr = norm
+                .replace(/[¿?¡!]/g, '')
+                .replace(/^(?:oye\s+|monicerdito\s+|por favor\s+|dime\s+|calcula\s+|resuelve\s+|cuanto es\s+|cuanto da\s+|resultado de\s+|el resultado de\s+)/g, '')
+                .replace(/,/g, '.')
+                .replace(/raiz(?: cuadrada)? de\s*(\d+(?:\.\d+)?)/g, 'Math.sqrt($1)')
+                .replace(/(\d+(?:\.\d+)?)\s*al cuadrado/g, 'Math.pow($1,2)')
+                .replace(/(\d+(?:\.\d+)?)\s*al cubo/g, 'Math.pow($1,3)')
+                .replace(/(\d+(?:\.\d+)?)\s*(?:elevado a(?: la)?|\^)\s*(\d+(?:\.\d+)?)/g, 'Math.pow($1,$2)')
+                .replace(/(\d+(?:\.\d+)?)\s*(?:%|por ciento|porciento)\s*(?:de|del)\s*(\d+(?:\.\d+)?)/g, '(($1/100)*$2)')
+                .replace(/\bmultiplicado por\b/g, '*')
+                .replace(/\bdividido entre\b/g, '/')
+                .replace(/\bdividido por\b/g, '/')
+                .replace(/\bpor\b/g, '*')
+                .replace(/\bx\b/g, '*')
+                .replace(/×/g, '*')
+                .replace(/\bentre\b/g, '/')
+                .replace(/÷/g, '/')
+                .replace(/\bmas\b/g, '+')
+                .replace(/\bmenos\b/g, '-')
+                .replace(/\$/g, '')
+                .trim();
+
+            const checkClean = expr.replace(/Math\.sqrt|Math\.pow/g, '');
+            const hasOperator = /[+\-*/]|Math\.sqrt|Math\.pow/.test(expr);
+            const hasDigit = /\d/.test(checkClean);
+
+            if (hasOperator && hasDigit && /^[0-9+\-*/().,\s]+$/.test(checkClean)) {
+                try {
+                    const result = Function(`"use strict"; return (${expr});`)();
+                    if (typeof result === 'number' && isFinite(result)) {
+                        const readableExpr = expr
+                            .replace(/Math\.sqrt\(([^)]+)\)/g, '√($1)')
+                            .replace(/Math\.pow\(([^,]+),([^)]+)\)/g, '($1^$2)')
+                            .replace(/\*/g, ' × ')
+                            .replace(/\//g, ' ÷ ')
+                            .replace(/\+/g, ' + ')
+                            .replace(/-/g, ' − ')
+                            .replace(/\s+/g, ' ')
+                            .trim();
+
+                        return `🧮 Resultado exacto: ${formatNumberClean(result)}\n\n• Operación interpretada: ${readableExpr}`;
+                    }
+                } catch (e) {}
+            }
+
+            return null;
+        }
+
+        function extractAllNumbers(text) {
+            const matches = text.match(/\d+(?:[.,]\d+)?/g);
+            if (!matches) return [];
+            return matches.map(m => parseFloat(m.replace(',', '.'))).filter(n => !isNaN(n));
+        }
+
+        const UNIVERSAL_KNOWLEDGE_BASE = [
+            {
+                id: 'acreimex_mixteca',
+                tags: ['acreimex', 'mixteca', 'caja de ahorro', 'cajas de ahorro', 'cooperativa', 'socap', 'oaxaca'],
+                reply: `🏦 Cajas de Ahorro en la Mixteca (Ej. Acreimex):\n\nSi te encuentras en la región de la Mixteca, las Sociedades Cooperativas de Ahorro y Préstamo (SOCAP) autorizadas y reguladas como Acreimex son una gran alternativa local para guardar tu dinero de forma segura y separada de tus gastos diarios.\n\n✨ Beneficios para tus futuros proyectos:\n• Seguridad y respaldo formal para tus ahorros.\n• Cuentas de ahorro ordinario, ahorro juvenil o inversión a plazo fijo para hacer crecer tu capital.\n• Historial financiero positivo dentro de tu comunidad para impulsar estudios, herramientas o un emprendimiento propio.`
+            },
+            {
+                id: 'gastos_hormiga',
+                tags: ['gasto hormiga', 'gastos hormiga', 'hormiga', 'pequenos gastos', 'compras pequenas', 'gastos invisibles', 'cafe diario', 'fugas de dinero'],
+                reply: `🐜 ¿Qué son los Gastos Hormiga y cómo eliminarlos?\n\nSon compras pequeñas, frecuentes y casi automáticas que parecen inofensivas al momento, pero sumadas al año representan una fuga enorme.\n\n• Impacto real: Gastar solo $45 diarios en café, refresco o botanas suma $315 a la semana, $1,350 al mes y $16,425 pesos al año.\n\n🛠️ Cómo frenarlos:\n1. Lleva termo de agua/café y botanas compradas en paquete grande.\n2. Fija un tope semanal en efectivo para antojos (ej. $120/semana).\n3. Regístralos en MoneyGo en "Antojos y Cafetería" para ver su impacto real.`
+            },
+            {
+                id: 'mejorar_finanzas_general',
+                tags: ['mejorar mis finanzas', 'como ahorro', 'administrar mejor', 'organizar mi dinero', 'consejos financieros', 'que me recomiendas', 'finanzas personales'],
+                reply: `📈 Plan práctico en 4 pasos para mejorar tus finanzas desde hoy:\n\n1. Págate a ti mismo primero: Aparta entre 15% y 20% de cada ingreso en cuanto lo recibas, antes de gastar.\n2. Controla tus 3 categorías principales: Revisa tus gráficas en MoneyGo para detectar dónde se va más del 40% de tu dinero y fija un tope semanal.\n3. Elimina fugas recurrentes: Sustituye compras diarias sueltas por opciones preparadas en casa.\n4. Usa cuentas formales o cajas de ahorro (como Acreimex si estás en la Mixteca) para resguardar el ahorro de tus futuros proyectos.`
+            },
+            {
+                id: 'cetes_inversion',
+                tags: ['cetes', 'cete', 'cetesdirecto', 'invertir', 'inversion', 'rendimiento', 'gobierno', 'bonos'],
+                reply: `📈 ¿Qué son los CETES y cómo invertir desde $100?\n\nLos Certificados de la Tesorería (CETES) son instrumentos de deuda del Gobierno de México y una de las inversiones más seguras del país.\n\n• Monto mínimo: Desde $100 pesos en cetesdirecto.com o su app oficial (sin comisiones).\n• Plazos flexibles: 28, 91, 182 o 364 días.\n• Ejemplo: Invertir $1,000 pesos a 1 año con tasa cercana al 9.5% te entrega ~$1,095 pesos al vencimiento.`
+            },
+            {
+                id: 'interes_compuesto',
+                tags: ['interes compuesto', 'compuesto', 'multiplicar dinero', 'efecto bola', 'crecer mi dinero'],
+                reply: `🚀 El Interés Compuesto explicado con números:\n\nEs cuando los rendimientos de tu ahorro se reinvierten para generar nuevas ganancias sobre el monto acumulado.\n\n• Ejemplo: Ahorrando $500 pesos al mes al 10% anual:\n  - En 1 año: ~$6,300.\n  - En 5 años: ~$38,700 (pusiste $30,000 y ganaste $8,700).\n  - En 10 años: ~$102,400 (pusiste $60,000 y ganaste $42,400).`
+            },
+            {
+                id: 'inflacion',
+                tags: ['inflacion', 'suben precios', 'poder adquisitivo', 'pierde valor', 'colchon'],
+                reply: `🎈 ¿Qué es la Inflación y cómo proteger tu dinero?\n\nLa inflación es el aumento generalizado de precios con el tiempo, lo que reduce lo que puedes comprar con el mismo dinero.\n\n• Ejemplo: Con 4.5% de inflación anual, $1,000 guardados sin rendimiento pierden ~$45 de poder de compra cada año.\n• Solución: Mantén tus ahorros de mediano y largo plazo en cajas de ahorro autorizadas, cuentas con rendimiento o CETES.`
+            },
+            {
+                id: 'tarjeta_credito_uso',
+                tags: ['tarjeta de credito', 'credito', 'fecha de corte', 'fecha limite', 'totalero', 'meses sin intereses', 'msi'],
+                reply: `💳 Cómo usar una Tarjeta de Crédito sin pagar intereses:\n\n1. Sé "Totalero": Paga siempre el "Pago para no generar intereses" antes de la fecha límite.\n2. Usa Meses Sin Intereses (MSI) únicamente en bienes duraderos necesarios (herramientas, equipo de estudio o electrodomésticos), nunca en comida.\n3. Nunca uses el crédito como dinero extra si no tienes el respaldo para pagarlo.`
+            },
+            {
+                id: 'salir_deudas',
+                tags: ['deuda', 'deudas', 'bola de nieve', 'avalancha', 'salir de deudas', 'prestamo', 'endeudado'],
+                reply: `❄️ Cómo salir de deudas paso a paso:\n\n• Método Bola de Nieve: Ordena tus deudas de la más chica a la más grande. Paga el mínimo en todas y destina tu dinero extra a liquidar la más pequeña primero; al terminarla, suma ese pago a la siguiente.\n• Método Avalancha: Ataca primero la deuda con mayor tasa de interés (CAT) para pagar menos intereses totales.`
+            },
+            {
+                id: 'emprender_poco_capital',
+                tags: ['emprender', 'negocio', 'iniciar negocio', 'ganar dinero', 'ingresos extra', 'vender'],
+                reply: `💼 Ideas para emprender o generar ingresos extra con poco capital:\n\n1. Reventa de alta rotación ($300-$800): Snacks, dulces, accesorios para celular o papelería básica con margen del 40%-50%.\n2. Servicios basados en habilidades (casi $0 de inversión): Asesorías escolares, diseño de presentaciones, edición de video o repostería bajo pedido.\n3. Regla de oro: Separa siempre el capital para volver a surtir de tu ganancia neta.`
+            },
+            {
+                id: 'regla_50_30_20',
+                tags: ['50/30/20', '50 30 20', 'regla', 'distribuir', 'porcentajes', 'dividir'],
+                reply: `📐 La Regla 50 / 30 / 20:\n\n• 50% Necesidades esenciales (comida, transporte, vivienda, servicios).\n• 30% Gustos personales (salidas, entretenimiento, compras).\n• 20% Ahorro y metas futuras.\n\nSi tus necesidades ocupan más del 50%, adáptala a 65 / 20 / 15 e ve ajustando poco a poco.`
+            },
+            {
+                id: 'fondo_emergencia',
+                tags: ['fondo de emergencia', 'emergencia', 'imprevisto', 'colchon financiero', 'respaldo'],
+                reply: `🛡️ Tu Fondo de Emergencia:\n\nEs un ahorro exclusivo para imprevistos reales (salud, reparaciones urgentes o pérdida de ingresos) para evitar endeudarte.\n• Primer objetivo: $1,500 a $3,000 pesos.\n• Objetivo ideal: Cubrir de 1 a 3 meses de tus gastos básicos indispensables.`
+            }
+        ];
+
+        function generateUniversalLocalReply(rawQuestion) {
+            const q = rawQuestion.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            const summary = getFinancialSummary();
+            const txs = currentUser ? (currentUser.transactions || []) : [];
+            const goals = currentUser ? (currentUser.goals || []) : [];
+            const opExpenses = txs.filter(t => t.type === 'expense' && t.category !== 'Ahorro Meta' && !t.isSavingsTransfer);
+
+            const catTotals = {};
+            opExpenses.forEach(e => {
+                catTotals[e.category] = (catTotals[e.category] || 0) + (Number(e.amount) || 0);
+            });
+            const sortedCats = Object.entries(catTotals).sort((a, b) => b[1] - a[1]);
+
+            const ignoreAccountBalance =
+                q.includes('no tomes en cuenta') ||
+                q.includes('sin tomar en cuenta') ||
+                q.includes('aparte de mi') ||
+                q.includes('independiente') ||
+                q.includes('supongamos') ||
+                q.includes('hipotetico') ||
+                q.includes('imagina que');
+
+            const nums = extractAllNumbers(q);
+            const daysMatch = q.match(/(\d+)\s*dias?/);
+            const weeksMatch = q.match(/(\d+)\s*semanas?/);
+            const monthsMatch = q.match(/(\d+)\s*mes(?:es)?/);
+            const yearsMatch = q.match(/(\d+)\s*anos?/);
+
+            let explicitDays = daysMatch ? parseInt(daysMatch[1], 10) : null;
+            if (!explicitDays && weeksMatch) explicitDays = parseInt(weeksMatch[1], 10) * 7;
+            if (!explicitDays && monthsMatch) explicitDays = parseInt(monthsMatch[1], 10) * 30;
+            if (!explicitDays && yearsMatch) explicitDays = parseInt(yearsMatch[1], 10) * 365;
+
+            const timeNumbers = new Set();
+            if (daysMatch) timeNumbers.add(parseInt(daysMatch[1], 10));
+            if (weeksMatch) timeNumbers.add(parseInt(weeksMatch[1], 10));
+            if (monthsMatch) timeNumbers.add(parseInt(monthsMatch[1], 10));
+            if (yearsMatch) timeNumbers.add(parseInt(yearsMatch[1], 10));
+
+            const moneyNums = nums.filter(n => !timeNumbers.has(n) && n > 0);
+            const explicitAmount = moneyNums.length > 0 ? moneyNums[0] : null;
+
+            // 1. Escenario Hipotético: Ingreso vs Gasto
+            if ((q.includes('gano') || q.includes('recibo') || q.includes('ingreso')) && q.includes('gasto') && moneyNums.length >= 2) {
+                const inc = moneyNums[0];
+                const exp = moneyNums[1];
+                const diff = inc - exp;
+                const expRatio = inc > 0 ? Math.round((exp / inc) * 100) : 0;
+
+                if (diff >= 0) {
+                    const savRate = inc > 0 ? Math.round((diff / inc) * 100) : 0;
+                    const recommendedSave = Math.max(diff * 0.7, inc * 0.2);
+                    return `📊 Análisis de tu escenario hipotético (Ingresos: ${formatMXN(inc)} vs. Gastos: ${formatMXN(exp)}):\n\n• Margen libre disponible: ${formatMXN(diff)} (${savRate}% de tus ingresos).\n• Proporción de gasto: Estás gastando el ${expRatio}% de lo que recibes.\n\n🚀 Cómo mejorar tus finanzas en este escenario:\n1. Automatiza tu ahorro: Aparta ${formatMXN(Math.min(diff, recommendedSave))} apenas recibas el dinero; en 6 meses acumularías ${formatMXN(Math.min(diff, recommendedSave) * 6)} y en 1 año ${formatMXN(Math.min(diff, recommendedSave) * 12)}.\n2. Recorta 10% tus gastos (${formatMXN(exp * 0.1)}): Evitando antojos sueltos liberarías ${formatMXN(exp * 0.1)} extra cada periodo.\n3. Guarda ese respaldo en una meta o caja de ahorro formal para futuros proyectos.`;
+                } else {
+                    const deficit = Math.abs(diff);
+                    return `⚠️ Alerta en este escenario hipotético: Tus gastos (${formatMXN(exp)}) superan tus ingresos (${formatMXN(inc)}) por ${formatMXN(deficit)}.\n\n🛠️ Plan urgente para equilibrarlo:\n1. Reduce gastos variables en al menos ${formatMXN(deficit + inc * 0.1)} eliminando compras no esenciales.\n2. Genera un ingreso extra semanal de ${formatMXN(Math.ceil(deficit / 4))} para volver a números positivos.`;
+                }
+            }
+
+            // 2. Escenario Hipotético: Inversión con tasa anual
+            if ((q.includes('invierto') || q.includes('invertir') || q.includes('rendimiento')) && moneyNums.length >= 2 && q.includes('%')) {
+                const capital = moneyNums[0];
+                const rate = moneyNums[1];
+                const years = yearsMatch ? parseInt(yearsMatch[1], 10) : 1;
+                const finalSimple = capital * (1 + (rate / 100) * years);
+                const finalCompound = capital * Math.pow(1 + rate / 100, years);
+                return `📈 Proyección de inversión de ${formatMXN(capital)} al ${rate}% anual durante ${years} año(s):\n\n• Ganancia anual estimada: ${formatMXN(capital * (rate / 100))}\n• Total con interés compuesto: ${formatMXN(finalCompound)} (ganancia neta: ${formatMXN(finalCompound - capital)}).\n• Total con interés simple: ${formatMXN(finalSimple)}.`;
+            }
+
+            // 3. Escenario Hipotético: Ahorro periódico o meta a plazo
+            if ((q.includes('si ahorro') || q.includes('ahorrando') || q.includes('juntar')) && explicitAmount !== null) {
+                if (q.includes('diario') || q.includes('por dia') || q.includes('al dia')) {
+                    const totalDays = explicitDays || 30;
+                    const totalSaved = explicitAmount * totalDays;
+                    lastChatContext.amount = totalSaved;
+                    return `🐷 Proyección de ahorro guardando ${formatMXN(explicitAmount)} diarios:\n\n• En 7 días (1 semana): ${formatMXN(explicitAmount * 7)}\n• En 15 días (1 quincena): ${formatMXN(explicitAmount * 15)}\n• En 30 días (1 mes): ${formatMXN(explicitAmount * 30)}\n• En 180 días (6 meses): ${formatMXN(explicitAmount * 180)}\n• En 365 días (1 año): ${formatMXN(explicitAmount * 365)}\n${explicitDays ? `\n🎯 En tu plazo exacto de ${explicitDays} días reunirías: ${formatMXN(totalSaved)}.` : ''}`;
+                }
+                if (q.includes('semanal') || q.includes('por semana') || q.includes('a la semana')) {
+                    const weeks = weeksMatch ? parseInt(weeksMatch[1], 10) : (monthsMatch ? parseInt(monthsMatch[1], 10) * 4 : 12);
+                    return `🐷 Proyección de ahorro guardando ${formatMXN(explicitAmount)} cada semana:\n\n• En 4 semanas (1 mes): ${formatMXN(explicitAmount * 4)}\n• En 12 semanas (3 meses): ${formatMXN(explicitAmount * 12)}\n• En 26 semanas (6 meses): ${formatMXN(explicitAmount * 26)}\n• En 52 semanas (1 año): ${formatMXN(explicitAmount * 52)}\n\n🎯 En ${weeks} semanas acumularías ${formatMXN(explicitAmount * weeks)}.`;
+                }
+                if (explicitDays !== null && explicitDays > 0) {
+                    const perDay = explicitAmount / explicitDays;
+                    const perWeek = explicitAmount / Math.max(1, explicitDays / 7);
+                    return `🎯 Plan para juntar ${formatMXN(explicitAmount)} en ${explicitDays} días:\n\n• Debes apartar ${formatMXN(perDay)} diarios.\n• O bien ${formatMXN(perWeek)} por semana.\n\n💡 Consejo: Crea esta meta en la pestaña "Metas de Ahorro" para ir abonando poco a poco.`;
+                }
+            }
+
+            // 4. Escenario Hipotético: Presupuesto para X días (ej. "tengo 100 pesos para 5 días")
+            if (explicitAmount !== null && explicitDays !== null && explicitDays > 0) {
+                lastChatContext.amount = explicitAmount;
+                lastChatContext.days = explicitDays;
+                const dailyLimit = explicitAmount / explicitDays;
+                const buffer = explicitAmount * 0.10;
+                const safeDaily = (explicitAmount - buffer) / explicitDays;
+
+                return `💵 Plan independiente para administrar ${formatMXN(explicitAmount)} durante ${explicitDays} día(s):\n\n• Tope máximo por día: ${formatMXN(dailyLimit)} diarios.\n• Tope recomendado con colchón de seguridad (guardando 10% = ${formatMXN(buffer)}): ${formatMXN(safeDaily)} al día.\n\n🛠️ Cómo estirarlo al máximo:\n1. Cubre primero lo indispensable (transporte y comida básica).\n2. Evita bebidas embotelladas o antojos sueltos.\n3. Lo que te sobre hoy pásalo al día siguiente como respaldo o abónalo a tu alcancía.`;
+            }
+
+            // 5. Seguimiento conversacional
+            if ((q.includes('y si') || q.includes('como lo divido') || q.includes('y para')) && lastChatContext.amount && explicitDays) {
+                const perDay = lastChatContext.amount / explicitDays;
+                return `¡Oink! Ajustando tus ${formatMXN(lastChatContext.amount)} a ${explicitDays} días:\n\n• Te corresponde un máximo de ${formatMXN(perDay)} por día.\n• A mitad del plazo (${Math.ceil(explicitDays / 2)} días) deberías conservar al menos ${formatMXN(lastChatContext.amount / 2)}.`;
+            }
+
+            // 6. Simulador de compra con su dinero real ("¿me alcanza para...?")
+            if (!ignoreAccountBalance && (q.includes('alcanza') || q.includes('comprar') || q.includes('puedo gastar')) && explicitAmount !== null) {
+                if (explicitAmount <= summary.balance) {
+                    const rem = summary.balance - explicitAmount;
+                    return `✅ Sí te alcanza: Con tu saldo disponible actual de ${formatMXN(summary.balance)}, puedes cubrir ${formatMXN(explicitAmount)} y te quedarían ${formatMXN(rem)} libres.\n💡 Tip: Si no es urgente, espera 24 horas antes de comprarlo para confirmar que realmente lo necesitas.`;
+                } else {
+                    return `⚠️ Aún no te alcanza con tu saldo disponible (${formatMXN(summary.balance)}): Te faltan ${formatMXN(explicitAmount - summary.balance)} para reunir ${formatMXN(explicitAmount)}.\n🐷 Crea una meta en "Metas de Ahorro" y abona pequeñas cantidades cada semana hasta lograrlo.`;
+                }
+            }
+
+            // 7. Monto libre sin días
+            if (explicitAmount !== null && explicitDays === null && (ignoreAccountBalance || q.includes('tengo') || q.includes('con ') || q.includes('administro') || q.includes('divido'))) {
+                lastChatContext.amount = explicitAmount;
+                return `💡 Cómo distribuir y hacer rendir ${formatMXN(explicitAmount)}:\n\n• 50% Necesidades (${formatMXN(explicitAmount * 0.5)}): Comida, transporte o pagos básicos.\n• 30% Gustos controlados (${formatMXN(explicitAmount * 0.3)}): Salidas o antojos planeados.\n• 20% Ahorro futuro (${formatMXN(explicitAmount * 0.2)}): Directo a tu alcancía o caja de ahorro.\n\nSi quieres dividirlo entre un número de días específico, dime cuántos días y lo calculo al instante.`;
+            }
+
+            // 8. Consultas abiertas sobre el dinero real del usuario
+            const asksAboutUserAccount =
+                !ignoreAccountBalance && (
+                    q.includes('diagnostico') ||
+                    q.includes('mi cuenta') ||
+                    q.includes('mi dinero') ||
+                    q.includes('mis gastos') ||
+                    q.includes('cuanto tengo') ||
+                    q.includes('mi saldo') ||
+                    q.includes('mis metas') ||
+                    q.includes('en que gasto') ||
+                    q.includes('optimizar') ||
+                    q.includes('como va')
+                );
+
+            if (asksAboutUserAccount) {
+                const topInfo = sortedCats.length > 0
+                    ? `Tu mayor fuga de dinero diaria es "${sortedCats[0][0]}" con ${formatMXN(sortedCats[0][1])}.`
+                    : 'Aún no tienes gastos diarios operativos registrados.';
+                const savPct = summary.totalIncome > 0 ? Math.round((summary.savingsExpense / summary.totalIncome) * 100) : 0;
+                const goalsSummary = goals.length > 0
+                    ? goals.map(g => `  • ${g.name}: ${formatMXN(g.saved)} / ${formatMXN(g.target)}`).join('\n')
+                    : '  • Aún no tienes metas creadas.';
+
+                let advice = '';
+                if (summary.balance > 0) {
+                    advice = `💡 Recomendación para tu dinero actual: Puedes abonar ${formatMXN(Math.round(summary.balance * 0.2))} (20% de tu saldo libre) a una meta y dejar ${formatMXN(summary.balance - Math.round(summary.balance * 0.2))} para tus gastos de la semana.`;
+                } else if (summary.totalIncome === 0) {
+                    advice = `💡 Empieza registrando un ingreso o apoyo en el Panel Principal para que analice tu presupuesto real.`;
+                } else {
+                    advice = `⚠️ Tu saldo disponible está en $0.00. Evita nuevos gastos no esenciales hasta recibir tu próximo ingreso.`;
+                }
+
+                return `📊 Estado real de tu dinero en MoneyGo:\n\n• Ingresos / Apoyos totales: ${formatMXN(summary.totalIncome)}\n• Gastos diarios operativos: ${formatMXN(summary.operatingExpense)}\n• Ahorro apartado en metas: ${formatMXN(summary.savingsExpense)} (${savPct}% de tus ingresos)\n• Saldo disponible libre hoy: ${formatMXN(summary.balance)}\n\n📌 ${topInfo}\n🐷 Tus metas:\n${goalsSummary}\n\n${advice}`;
+            }
+
+            // 9. Búsqueda en Enciclopedia Financiera
+            let bestTopic = null;
+            let bestScore = 0;
+
+            for (const item of UNIVERSAL_KNOWLEDGE_BASE) {
+                let score = 0;
+                for (const tag of item.tags) {
+                    if (q.includes(tag)) {
+                        score += tag.length + 5;
+                    }
+                }
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestTopic = item;
+                }
+            }
+
+            if (bestTopic && bestScore > 0) {
+                lastChatContext.usedTopicIds.add(bestTopic.id);
+                return bestTopic.reply;
+            }
+
+            // 10. Respuesta conversacional abierta sin repeticiones
+            const cleanTopic = rawQuestion.replace(/[¿?¡!]/g, '').trim();
+            return `¡Oink! Sobre "${cleanTopic}": 🐷✨\n\n• Si deseas resolver una operación matemática exacta, escríbela con números o palabras (por ejemplo: "25 por 35", "1200 entre 4", "15% de 800" o "raíz cuadrada de 144").\n• Si quieres analizar un escenario hipotético de dinero, dime el monto y los días o meses (por ejemplo: "tengo 100 pesos para 5 días" o "si ahorro 20 diarios por 6 meses cuánto junto").\n• Si quieres revisar tu cuenta real en MoneyGo, pregúntame "¿cómo va mi dinero?" y analizamos tus movimientos al instante.`;
+        }
+
+        /* =========================================================================
+           10. CATÁLOGO DE 101 CONSEJOS Y FORMAS DE AHORRO (INCLUYENDO MIXTECA/ACREIMEX)
+           ========================================================================= */
+        const SAVINGS_TIPS_101 = [
+            { id: 1, cat: 'Gastos Hormiga', title: 'Lleva tu propio termo de agua o café', how: 'Llena una botella reutilizable en casa antes de salir en lugar de comprar agua o café embotellado en la calle.', example: 'Si ahorras $25 pesos diarios durante 24 días al mes, juntas $600 al mes ($7,200 al año).' },
+            { id: 2, cat: 'Reglas y Métodos', title: 'Págate a ti mismo primero', how: 'Apenas recibas tu sueldo, mesada o apoyo, transfiere el 10% o 20% a tu meta en MoneyGo antes de gastar en cualquier otra cosa.', example: 'De un ingreso de $1,500, aparta $300 el primer día; en 5 quincenas tendrás $1,500 seguros.' },
+            { id: 3, cat: 'Compras Inteligentes', title: 'La regla de las 48 horas', how: 'Cuando quieras comprar algo no esencial por impulso, espera 48 horas antes de pagarlo para comprobar si aún lo necesitas.', example: 'Evitar una compra impulsiva de unos tenis o gadget de $850 una vez al mes te ahorra $10,200 al año.' },
+            { id: 4, cat: 'Comida y Hogar', title: 'Prepara tu lunch o comida en casa', how: 'Cocina una porción extra en la cena y guárdala en un recipiente para comerla al día siguiente fuera de casa.', example: 'Comer fuera cuesta ~$95 diarios; llevar comida casera cuesta ~$35, ahorrando $1,200 cada mes.' },
+            { id: 5, cat: 'Retos de Ahorro', title: 'Reto de las monedas de $10', how: 'Cada vez que recibas una moneda de $10 en tu cambio, guárdala sin excepción y regístrala en tu meta de ahorro.', example: 'Guardar solo 5 monedas de $10 por semana suma $200 al mes y $2,400 al año sin esfuerzo.' },
+            { id: 6, cat: 'Servicios y Digital', title: 'Audita tus suscripciones mensuales', how: 'Revisa los cargos de tu tarjeta o celular y cancela plataformas de video, música o apps que no hayas usado en 15 días.', example: 'Cancelar 2 plataformas de $139 y $119 libera $258 mensuales ($3,096 anuales).' },
+            { id: 7, cat: 'Compras Inteligentes', title: 'Nunca vayas al súper con hambre', how: 'Come algo ligero antes de ir al supermercado y lleva una lista escrita con exactamente lo que necesitas.', example: 'Ir con hambre sube la cuenta hasta 25% en botanas y pan (~$250 extra por compra).' },
+            { id: 8, cat: 'Comida y Hogar', title: 'Desconecta los vampiros eléctricos', how: 'Usa regletas con interruptor para apagar pantallas, consolas y cargadores cuando no los estés utilizando.', example: 'Baja tu recibo de luz entre 10% y 15%, ahorrando ~$180 cada bimestre.' },
+            { id: 9, cat: 'Transporte', title: 'Agrupa todas tus vueltas en una sola salida', how: 'Organiza pagos, compras y pendientes en una misma ruta en lugar de hacer varios viajes cortos en distintos días.', example: 'Ahorrar 3 traslados de $35 a la semana te deja $420 libres cada mes.' },
+            { id: 10, cat: 'Reglas y Métodos', title: 'Aplica la Regla 50 / 30 / 20', how: 'Divide cada ingreso: 50% para necesidades básicas, 30% para gustos y 20% directo a tus metas de ahorro.', example: 'Con $2,000 de ingreso: $1,000 básicos, $600 gustos y $400 directos a tu alcancía.' },
+            { id: 11, cat: 'Compras Inteligentes', title: 'Compara el precio por gramo o mililitro', how: 'Mira en la etiqueta del estante el costo por kilo o litro en lugar de guiarte solo por el tamaño del empaque.', example: 'Un cereal de 500g a $65 ($130/kg) sale más caro que uno de 800g a $88 ($110/kg).' },
+            { id: 12, cat: 'Comida y Hogar', title: 'Compra frutas y verduras de temporada', how: 'Elige alimentos de cosecha local en mercados o tianguis en lugar de frutas importadas fuera de época.', example: 'El mango o naranja de temporada cuesta $18/kg frente a $55/kg fuera de temporada.' },
+            { id: 13, cat: 'Servicios y Digital', title: 'Evita comisiones de cajeros automáticos', how: 'Retira efectivo únicamente en cajeros de tu propio banco o paga mediante transferencia electrónica sin comisión.', example: 'Evitar 4 retiros en cajero ajeno de $35 cada uno ahorra $140 al mes ($1,680 al año).' },
+            { id: 14, cat: 'Comida y Hogar', title: 'Lava ropa con cargas completas y agua fría', how: 'Junta suficiente ropa para llenar la lavadora y utiliza el ciclo de agua fría en lugar de agua caliente.', example: 'Ahorras hasta 75% de energía y 40 litros de agua por cada lavada.' },
+            { id: 15, cat: 'Compras Inteligentes', title: 'Prueba marcas propias del supermercado', how: 'Sustituye básicos como arroz, avena, papel y limpiadores por la marca propia de la tienda.', example: 'Una despensa con 10 productos marca propia cuesta ~$420 frente a $580 de marcas comerciales.' },
+            { id: 16, cat: 'Retos de Ahorro', title: 'Vende artículos que llevas 6 meses sin usar', how: 'Revisa tu clóset o librero y vende ropa en buen estado, libros o electrónicos que ya no utilices.', example: 'Vender 3 prendas y un accesorio te da ~$650 inmediatos para tu Fondo de Emergencia.' },
+            { id: 17, cat: 'Gastos Hormiga', title: 'Prepara tu café en casa', how: 'Compra café soluble o molido de tu agrado y prepáralo en casa en vez de comprar vasos en cafeterías de cadena.', example: 'Un café de cadena cuesta $65; en casa cuesta $6. En 20 días ahorras $1,180.' },
+            { id: 18, cat: 'Reglas y Métodos', title: 'Calcula el costo en horas de tu esfuerzo', how: 'Divide el precio del producto entre lo que ganas por hora para saber cuánto tiempo real te cuesta.', example: 'Si ganas $50/hora, unos audífonos de $1,000 cuestan 20 horas completas de tu trabajo.' },
+            { id: 19, cat: 'Servicios y Digital', title: 'Comparte planes familiares legales', how: 'Divide el costo de planes familiares de música o streaming entre amigos o familiares de confianza.', example: 'Un plan familiar de $199 entre 4 personas cuesta $50 cada uno en lugar de $139 individual.' },
+            { id: 20, cat: 'Transporte', title: 'Revisa la presión de tus neumáticos', how: 'Mantén infladas las llantas de tu auto, moto o bicicleta según la medida recomendada.', example: 'Unas llantas bajas aumentan el gasto de gasolina hasta en 8% (~$200 extra al mes).' },
+            { id: 21, cat: 'Compras Inteligentes', title: 'Aprovecha los días de plaza o farmacia', how: 'Concentra tus compras de frescos en martes/miércoles de frutas y verduras o días de descuento.', example: 'Comprar verduras en día de plaza ahorra hasta 30% en tu ticket semanal.' },
+            { id: 22, cat: 'Gastos Hormiga', title: 'Asigna un tope semanal en efectivo para antojos', how: 'Saca una cantidad fija el lunes para tus gustos de la semana; al terminarse, no uses tarjeta ni transferencias.', example: 'Fijar $150 semanales para antojos evita gastar $400 sin darte cuenta.' },
+            { id: 23, cat: 'Comida y Hogar', title: 'Congela porciones antes de que se maduren de más', how: 'Divide carne, pan o fruta madura en bolsas individuales y congélalas el mismo día.', example: 'Evitar tirar comida echada a perder ahorra ~$350 mensuales en despensa.' },
+            { id: 24, cat: 'Comida y Hogar', title: 'Cambia todos los focos a iluminación LED', how: 'Reemplaza focos viejos o incandescentes por focos LED de bajo consumo energético.', example: 'Un foco LED de 9W ilumina igual que uno de 60W consumiendo 85% menos luz.' },
+            { id: 25, cat: 'Retos de Ahorro', title: 'Reto de 30 días sin compras no esenciales', how: 'Elige un mes para gastar únicamente en comida, transporte y servicios, pausando ropa y lujos.', example: 'Un mes de consumo consciente libera entre $1,000 y $2,500 para impulsar tus metas.' },
+            { id: 26, cat: 'Compras Inteligentes', title: 'Verifica el historial de precios antes de rebajas', how: 'Revisa el precio habitual de un artículo semanas antes de ofertas para confirmar que el descuento sea real.', example: 'Evitas pagar $3,200 por un artículo que costaba $2,700 dos semanas antes.' },
+            { id: 27, cat: 'Comida y Hogar', title: 'Planea el menú semanal cada domingo', how: 'Define 5 comidas sencillas antes de ir a comprar ingredientes para evitar pedir comida a domicilio.', example: 'Pedir comida por app 3 veces por semana cuesta ~$600; cocinar esos días cuesta ~$180.' },
+            { id: 28, cat: 'Gastos Hormiga', title: 'Borra tu tarjeta guardada de apps de compras', how: 'Elimina el pago con un solo clic en tiendas en línea y apps de comida rápida.', example: 'Tener que ingresar los datos manualmente reduce 40% las compras nocturnas por impulso.' },
+            { id: 29, cat: 'Retos de Ahorro', title: 'Redondea cada gasto hacia arriba', how: 'Cuando gastes una cantidad impar, redondea a la siguiente decena o centena y abona la diferencia a tu meta.', example: 'Si gastas $73, redondea a $80 y guarda $7 en tu alcancía MoneyGo.' },
+            { id: 30, cat: 'Transporte', title: 'Camina trayectos menores a 1.5 kilómetros', how: 'Para distancias de 10 a 15 minutos caminando, evita pagar taxi, mototaxi o transporte corto.', example: 'Ahorrar 2 viajes cortos de $20 al día suma $800 al mes y mejora tu condición física.' },
+            { id: 31, cat: 'Comida y Hogar', title: 'Reduce 2 minutos tu tiempo en la ducha', how: 'Pon una canción de 4 minutos como guía al bañarte y cierra la llave mientras te enjabonas.', example: 'Ahorras hasta 40 litros de agua y gas LP en cada baño.' },
+            { id: 32, cat: 'Compras Inteligentes', title: 'Compra ropa al final de cada temporada', how: 'Adquiere chamarras al terminar el invierno y ropa fresca al terminar el verano.', example: 'Una chamarra de $1,200 suele bajar a $550 en liquidación de cambio de temporada.' },
+            { id: 33, cat: 'Comida y Hogar', title: 'Incluye legumbres 2 veces por semana', how: 'Prepara lentejas, frijoles o garbanzos como plato fuerte dos días a la semana en lugar de carne.', example: '1 kg de lentejas cuesta ~$42 y rinde 8 porciones frente a $190 de 1 kg de carne.' },
+            { id: 34, cat: 'Reglas y Métodos', title: 'Ponle nombre específico a cada meta', how: 'En lugar de "ahorro general", nombra tu meta como "Laptop nueva" o "Proyecto futuro".', example: 'Las metas con nombre concreto tienen 60% más éxito que el ahorro sin propósito.' },
+            { id: 35, cat: 'Servicios y Digital', title: 'Ajusta tu paquete o recarga de telefonía', how: 'Compara cuántos datos usas realmente al mes y cambia a un paquete acorde a tu consumo real.', example: 'Pasar de un plan de $499 a recargas de $200 ahorra $299 al mes ($3,588 al año).' },
+            { id: 36, cat: 'Gastos Hormiga', title: 'Carga snacks comprados en paquete grande', how: 'Lleva cacahuates, fruta o galletas compradas por paquete familiar en lugar de tiendas individuales.', example: 'Una bolsa de cacahuates de $25 rinde toda la semana frente a $20 diarios en botanas.' },
+            { id: 37, cat: 'Compras Inteligentes', title: 'Pide prestado o renta lo que usarás una vez', how: 'Si necesitas un taladro, escalera o traje formal para un evento único, pídelo prestado o réntalo.', example: 'Evitas gastar $1,400 en una herramienta que permanecerá guardada todo el año.' },
+            { id: 38, cat: 'Comida y Hogar', title: 'Pide agua natural al comer en restaurantes', how: 'Cuando salgas a comer fuera, elige agua natural o jarra compartida en lugar de refrescos individuales.', example: 'En una comida de 2 personas ahorras entre $120 y $180 por salida.' },
+            { id: 39, cat: 'Comida y Hogar', title: 'Limpia los filtros del ventilador o clima', how: 'Retira el polvo de aspas y filtros una vez al mes para que el motor funcione ligero.', example: 'Un filtro sucio incrementa el consumo eléctrico hasta en 15%.' },
+            { id: 40, cat: 'Reglas y Métodos', title: 'Regla del "uno entra, uno sale"', how: 'Antes de comprar una prenda o accesorio nuevo, vende o dona uno que ya tengas en casa.', example: 'Evita la acumulación innecesaria y recupera dinero de lo que ya no usas.' },
+            { id: 41, cat: 'Reglas y Métodos', title: 'Construye primero tu Fondo de Emergencia', how: 'Ahorra el equivalente a 1 mes de tus gastos básicos antes de invertir en gustos costosos.', example: 'Tener $2,500 de respaldo evita que pidas préstamos con intereses ante un imprevisto.' },
+            { id: 42, cat: 'Compras Inteligentes', title: 'Pregunta por medicamentos genéricos', how: 'Consulta la sustancia activa de tu receta médica y solicita la versión genérica intercambiable.', example: 'Un medicamento de patente de $380 cuesta ~$85 en versión genérica equivalente.' },
+            { id: 43, cat: 'Comida y Hogar', title: 'Compra especias y condimentos a granel', how: 'Adquiere ajo en polvo, pimienta, orégano y canela en bolsitas a granel en vez de frascos.', example: 'A granel pagas $15 por la misma cantidad que cuesta $65 en frasco comercial.' },
+            { id: 44, cat: 'Transporte', title: 'Comparte transporte con compañeros o vecinos', how: 'Organízate con personas que vayan a tu misma ruta para dividir gasolina o tarifa de taxi.', example: 'Dividir un traslado de $90 entre 3 personas reduce tu gasto a $30 por viaje.' },
+            { id: 45, cat: 'Gastos Hormiga', title: 'Revisa siempre tu ticket antes de salir de caja', how: 'Comprueba que las promociones del pasillo se hayan cobrado correctamente en la caja.', example: 'Detectar cobros duplicados o descuentos no aplicados recupera $30-$100 al instante.' },
+            { id: 46, cat: 'Comida y Hogar', title: 'Aprovecha al máximo la luz natural', how: 'Abre cortinas y coloca tu mesa de trabajo cerca de una ventana durante el día.', example: 'Ahorras entre 4 y 6 horas diarias de consumo eléctrico en focos.' },
+            { id: 47, cat: 'Compras Inteligentes', title: 'Compra productos de higiene en tamaño jumbo', how: 'Adquiere jabón, detergente y papel higiénico en paquetes grandes cuando estén en oferta.', example: 'El detergente de 5L cuesta $29/L frente a $45/L en bolsa chica.' },
+            { id: 48, cat: 'Reglas y Métodos', title: 'Registra cada gasto el mismo día en MoneyGo', how: 'Dedica 1 minuto cada noche a anotar tus movimientos para mantener control total.', example: 'Llevar registro diario reduce automáticamente los gastos innecesarios en 18%.' },
+            { id: 49, cat: 'Comida y Hogar', title: 'Reinventa las sobras del día anterior', how: 'Convierte pollo, arroz o verduras sobrantes en tacos dorados, ensaladas o tortitas.', example: 'Evitas desperdiciar alimentos y ahorras el costo completo de una cena (~$110).' },
+            { id: 50, cat: 'Retos de Ahorro', title: 'El Reto de las 52 Semanas', how: 'Ahorra $10 la semana 1, $20 la semana 2, $30 la semana 3 y aumenta $10 cada semana del año.', example: 'Al completar las 52 semanas habrás juntado exactamente $13,780 pesos.' },
+            { id: 51, cat: 'Servicios y Digital', title: 'Usa bibliotecas y libros digitales gratuitos', how: 'Busca libros de estudio o lectura en bibliotecas públicas antes de comprar ejemplares nuevos.', example: 'Leer 6 libros prestados al año te ahorra aproximadamente $1,800.' },
+            { id: 52, cat: 'Compras Inteligentes', title: 'Guarda tickets de electrónicos para garantía', how: 'Toma foto al ticket de audífonos, cargadores o aparatos para hacer válida la garantía si fallan.', example: 'Cambiar un cargador dañado con garantía evita gastar $350 en otro.' },
+            { id: 53, cat: 'Gastos Hormiga', title: 'Haz palomitas caseras para ver películas', how: 'Compra maíz palomero natural en bolsa en lugar de combos de cine o bolsas de microondas.', example: 'Una bolsa de $22 rinde 8 tazones grandes frente a $110 de un combo.' },
+            { id: 54, cat: 'Comida y Hogar', title: 'Tapa siempre las ollas al cocinar', how: 'Coloca la tapa sobre ollas y sartenes mientras calientas agua o preparas guisados.', example: 'El agua hierve 30% más rápido y ahorras gas LP en cada comida.' },
+            { id: 55, cat: 'Transporte', title: 'Mantén velocidad constante al conducir', how: 'Evita acelerones bruscos entre semáforos y frena con anticipación.', example: 'Una conducción suave ahorra hasta 15% de gasolina en ciudad.' },
+            { id: 56, cat: 'Reglas y Métodos', title: 'No uses crédito para gastos que desaparecen hoy', how: 'Evita pagar comida rápida o salidas con tarjeta de crédito si no tienes el efectivo apartado.', example: 'Evitas pagar intereses anuales de hasta 60% por consumos pasajeros.' },
+            { id: 57, cat: 'Comida y Hogar', title: 'Compra pollo entero cortado en piezas', how: 'Pide un pollo entero destazado en la pollería en lugar de comprar solo pechuga empaquetada.', example: 'El pollo entero cuesta ~$58/kg y rinde 3 comidas frente a $135/kg de pechuga.' },
+            { id: 58, cat: 'Compras Inteligentes', title: 'Repara prendas o accesorios antes de tirarlos', how: 'Cose un botón, pega una suela o cambia una pila en lugar de comprar un artículo nuevo.', example: 'Cambiar una batería de $35 evita gastar $450 en un reloj o control nuevo.' },
+            { id: 59, cat: 'Retos de Ahorro', title: 'Monetiza una habilidad en tus ratos libres', how: 'Ofrece asesorías escolares, diseño, repostería o venta por catálogo para generar ingresos extra.', example: '2 horas de asesoría a la semana a $100/hora suman $800 extra al mes para tus metas.' },
+            { id: 60, cat: 'Gastos Hormiga', title: 'Desactiva notificaciones de tiendas y comida', how: 'Apaga las alertas promocionales de apps de entrega y tiendas de ropa en tu teléfono.', example: 'Menos anuncios de "envío gratis" significan menos compras impulsivas.' },
+            { id: 61, cat: 'Comida y Hogar', title: 'Detecta fugas silenciosas en el baño', how: 'Coloca unas gotas de colorante en el tanque del WC; si pasa color a la taza sin jalarle, cambia el sello.', example: 'Una fuga silenciosa desperdicia 200 litros diarios y eleva tu recibo de agua.' },
+            { id: 62, cat: 'Compras Inteligentes', title: 'Considera tecnología reacondicionada con garantía', how: 'Evalúa laptops o celulares reacondicionados certificados en vez del modelo recién lanzado.', example: 'Una laptop reacondicionada cuesta $6,500 frente a $11,000 nueva con igual rendimiento.' },
+            { id: 63, cat: 'Comida y Hogar', title: 'Prepara tus propias salsas y aderezos', how: 'Licúa jitomate, chile, cebolla o limón en casa en lugar de comprar frascos procesados.', example: 'Una salsa casera cuesta $18 y rinde toda la semana contra $55 de un frasco.' },
+            { id: 64, cat: 'Reglas y Métodos', title: 'Separa el dinero de gastos del dinero de ahorro', how: 'No mezcles tus ahorros con el efectivo que traes en la cartera para gastos diarios.', example: 'El dinero apartado en metas queda protegido psicológicamente de antojos.' },
+            { id: 65, cat: 'Servicios y Digital', title: 'Rota tus plataformas de entretenimiento', how: 'Contrata solo 1 servicio de streaming al mes, mira tus series y cambia al siguiente mes.', example: 'Pagar 1 servicio de $149 al mes en vez de 3 ahorra ~$300 mensuales ($3,600/año).' },
+            { id: 66, cat: 'Transporte', title: 'Tramita tarjetas o descuentos preferenciales', how: 'Si eres estudiante o usuario frecuente, solicita la tarifa preferencial de transporte de tu ciudad.', example: 'Un descuento del 50% en pasajes ahorra entre $250 y $500 mensuales.' },
+            { id: 67, cat: 'Compras Inteligentes', title: 'Organiza intercambios con amigos', how: 'Intercambia libros, videojuegos o prendas en buen estado con tu grupo cercano.', example: 'Obtienes entretenimiento y lectura nueva gastando exactamente $0.00.' },
+            { id: 68, cat: 'Comida y Hogar', title: 'Compra huevo por cartera de 30 piezas', how: 'Adquiere la cartera completa de 30 huevos en lugar de paquetes pequeños de 12.', example: 'Pagas ~$2.70 por pieza en cartera frente a ~$3.70 por pieza en paquete chico.' },
+            { id: 69, cat: 'Gastos Hormiga', title: 'Sal de casa con el celular cargado al 100%', how: 'Carga tu teléfono antes de salir y lleva un cable corto en tu mochila.', example: 'Evitas gastar $150 en cables de emergencia en tiendas de conveniencia.' },
+            { id: 70, cat: 'Retos de Ahorro', title: 'Ahorra el 50% de cualquier dinero sorpresa', how: 'Cuando recibas un regalo en efectivo, reembolso o bono inesperado, guarda la mitad al instante.', example: 'Si te regalan $600, manda $300 a tu meta y disfruta los otros $300 sin culpa.' },
+            { id: 71, cat: 'Comida y Hogar', title: 'Plancha la ropa de la semana en una sola tanda', how: 'Enciende la plancha una sola vez por semana para todas tus prendas.', example: 'Evitas el pico de consumo eléctrico que ocurre al calentarla cada mañana.' },
+            { id: 72, cat: 'Reglas y Métodos', title: 'Crea una meta para regalos y diciembre desde hoy', how: 'Aparta una cuota mensual pequeña durante todo el año para cumpleaños y fiestas.', example: 'Ahorrar $150 al mes te da $1,800 en diciembre sin endeudarte.' },
+            { id: 73, cat: 'Comida y Hogar', title: 'Desayuna avena natural en lugar de cereal de caja', how: 'Compra hojuelas de avena natural a granel y prepárala con canela y fruta.', example: '1 kg de avena cuesta $28 y rinde 20 desayunos ($1.40/plato) frente a $75 de una caja.' },
+            { id: 74, cat: 'Reglas y Métodos', title: 'Cuestiona cada gasto recurrente cada 3 meses', how: 'Revisa tus estadísticas en MoneyGo cada trimestre para detectar hábitos que subieron de costo.', example: 'Ajustar a tiempo un hábito que subió $200/mes recupera $2,400 al año.' },
+            { id: 75, cat: 'Servicios y Digital', title: 'Usa herramientas y editores gratuitos', how: 'Aprovecha suites ofimáticas y editores gratuitos antes de pagar licencias mensuales.', example: 'Ahorras entre $1,200 y $2,400 anuales en suscripciones de software.' },
+            { id: 76, cat: 'Gastos Hormiga', title: 'Evita compras de rutina en tiendas 24 horas', how: 'Compra tus bebidas o botanas en supermercados grandes en vez de tiendas de esquina.', example: 'Los mismos productos cuestan entre 25% y 40% más en tiendas de conveniencia.' },
+            { id: 77, cat: 'Comida y Hogar', title: 'Prepara limpiadores multiusos caseros', how: 'Usa vinagre blanco, bicarbonato y jabón biodegradable para limpiar superficies y vidrios.', example: 'Un galón de vinagre cuesta $45 y rinde como 4 limpiadores comerciales de $60.' },
+            { id: 78, cat: 'Compras Inteligentes', title: 'Compra papelería y útiles por caja entre varios', how: 'Divide paquetes de hojas, libretas y plumas con compañeros o familiares.', example: 'Un paquete de 500 hojas dividido entre 2 sale en $65 c/u vs $0.50 por hoja suelta.' },
+            { id: 79, cat: 'Comida y Hogar', title: 'Lleva fruta entera como colación', how: 'Compra plátanos o manzanas por kilo en lugar de vasos de fruta picada en la calle.', example: '1 kg de plátano cuesta $22 y dura 6 días frente a $35 de un solo vaso picado.' },
+            { id: 80, cat: 'Reglas y Métodos', title: 'Fija un presupuesto máximo antes de salir', how: 'Decide cuánto gastarás en una salida social antes de salir de casa y respeta ese tope.', example: 'Fijar un límite de $250 evita terminar gastando $600 por presión del momento.' },
+            { id: 81, cat: 'Retos de Ahorro', title: 'Ahorra la diferencia cuando suban tus ingresos', how: 'Si recibes un aumento o apoyo mayor, mantén tu nivel de gastos actual y ahorra el extra.', example: 'Si tus ingresos suben $500/mes y no subes tus gastos, ahorras $6,000 extra al año.' },
+            { id: 82, cat: 'Transporte', title: 'Usa bicicleta en trayectos urbanos seguros', how: 'Sustituye viajes cortos en transporte por bicicleta cuando la ruta sea segura.', example: 'Ahorras el 100% de pasajes diarios (~$500-$800 mensuales).' },
+            { id: 83, cat: 'Compras Inteligentes', title: 'Invierte en calidad en artículos de uso diario', how: 'Elige calzado cómodo y mochila resistente en lugar de opciones muy baratas que se rompen pronto.', example: 'Unos tenis buenos de $1,100 duran 2 años frente a 3 pares baratos de $450 ($1,350).' },
+            { id: 84, cat: 'Comida y Hogar', title: 'Prepara agua fresca natural de frutas o jamaica', how: 'Hierve flor de jamaica o licúa limón con chía en una jarra de 2 litros.', example: 'Una jarra casera cuesta ~$12 contra $46 de un refresco familiar.' },
+            { id: 85, cat: 'Comida y Hogar', title: 'No metas comida caliente al refrigerador', how: 'Deja que los guisados se enfríen a temperatura ambiente antes de guardarlos en el refri.', example: 'Evitas que el motor trabaje al doble y ahorras energía eléctrica.' },
+            { id: 86, cat: 'Gastos Hormiga', title: 'Pon presupuesto cero a microcompras en juegos', how: 'Evita recargas pequeñas de monedas virtuales, skins o rifas impulsivas en el celular.', example: 'Eliminar 4 recargas de $79 al mes ahorra $3,792 al año.' },
+            { id: 87, cat: 'Reglas y Métodos', title: 'Celebra cada 25% de avance en tus metas', how: 'Reconoce tu disciplina al llegar a 25%, 50%, 75% y 100% de tu meta sin gastar el dinero ahorrado.', example: 'Disfruta una tarde de películas en casa para celebrar tu progreso.' },
+            { id: 88, cat: 'Compras Inteligentes', title: 'Busca muebles o bicicletas seminuevas', how: 'Revisa mercados locales de segunda mano antes de comprar escritorios, sillas o bicis nuevas.', example: 'Un escritorio seminuevo cuesta $700 frente a $2,400 nuevo en tienda.' },
+            { id: 89, cat: 'Comida y Hogar', title: 'Cultiva hierbas aromáticas en una maceta', how: 'Siembra cilantro, hierbabuena o chile en una maceta pequeña junto a una ventana.', example: 'Tienes condimentos frescos todo el año por $0 sin que se echen a perder.' },
+            { id: 90, cat: 'Servicios y Digital', title: 'Elige la velocidad de internet que realmente usas', how: 'Verifica si un paquete básico de 60-100 megas cubre bien tus clases, videos y trabajo.', example: 'Bajar de un paquete de $699 a uno de $449 ahorra $250 al mes ($3,000/año).' },
+            { id: 91, cat: 'Retos de Ahorro', title: 'Practica 2 días sin gastar a la semana', how: 'Elige dos días (por ejemplo martes y jueves) donde tu meta sea gastar exactamente $0.00.', example: '8 días al mes sin gastos frena la inercia de consumo y ahorra ~$600 mensuales.' },
+            { id: 92, cat: 'Compras Inteligentes', title: 'Toma foto a tu alacena antes de ir al súper', how: 'Fotografía tu refrigerador y despensa antes de salir para no comprar cosas repetidas.', example: 'Evitas gastar $150 en ingredientes que ya tenías guardados al fondo.' },
+            { id: 93, cat: 'Comida y Hogar', title: 'Seca la ropa al sol en lugar de secadora', how: 'Aprovecha la luz solar y el viento para secar tu ropa al aire libre.', example: 'Evitar la secadora eléctrica ahorra alrededor de $250 por bimestre.' },
+            { id: 94, cat: 'Gastos Hormiga', title: 'Compra mentas o chicles en caja grande', how: 'Guarda un paquete grande en tu bolso en lugar de comprar pastillas sueltas en cajas.', example: 'Ahorras hasta 60% frente al precio individual de mostrador.' },
+            { id: 95, cat: 'Reglas y Métodos', title: 'Haz un cierre semanal de 5 minutos cada domingo', how: 'Revisa tus gráficos en MoneyGo cada domingo para ajustar tu presupuesto de la semana.', example: 'Detectar excesos a tiempo te permite equilibrar la siguiente semana.' },
+            { id: 96, cat: 'Comida y Hogar', title: 'Remoja frijoles y garbanzos una noche antes', how: 'Déjalos en agua desde la noche anterior antes de ponerlos a cocer.', example: 'Se cocinan en la mitad de tiempo, ahorrando 50% de gas.' },
+            { id: 97, cat: 'Transporte', title: 'Limpia el filtro de aire de tu vehículo o moto', how: 'Revisa el filtro de aire en cada mantenimiento preventivo.', example: 'Un motor bien ventilado quema menos combustible y evita averías.' },
+            { id: 98, cat: 'Compras Inteligentes', title: 'Compra artesanías directo al productor en viajes', how: 'Evita tiendas turísticas costosas y adquiere recuerdos locales directamente con artesanos.', example: 'Ahorras hasta 40% y apoyas la economía local directamente.' },
+            { id: 99, cat: 'Retos de Ahorro', title: 'Mantén 3 metas: corta, mediana y larga', how: 'Ten siempre una meta rápida (1 mes), una mediana (6 meses) y una grande (1 año).', example: 'Cumplir la meta rápida te motiva a seguir alimentando las demás.' },
+            { id: 100, cat: 'Reglas y Métodos', title: 'Ahorrar no es privarte, es construir tu libertad', how: 'Cada peso que registras como ahorro en MoneyGo es tranquilidad y poder de decisión para tu futuro.', example: 'Ahorrar $25 pesos diarios constantes se convierte en $9,125 pesos al año para tus sueños.' },
+            { id: 101, cat: 'Ahorro Formal y Mixteca', title: 'Cajas de Ahorro Locales (Ej. Acreimex en la Mixteca)', how: 'Si te encuentras en la región de la Mixteca, existen cooperativas y cajas de ahorro autorizadas como Acreimex donde puedes guardar tu dinero de forma segura y formal para futuros proyectos, manteniéndolo separado de tus gastos diarios y generando rendimientos.', example: 'Si depositas $200 pesos quincenales en tu cuenta de caja de ahorro durante 1 año, reúnes $4,800 más rendimientos e historial financiero para fondear estudios o un emprendimiento propio.' }
+        ];
+
+        let currentTipsCategory = 'Todos';
+
+        function initTipsSection() {
+            const cats = ['Todos', 'Ahorro Formal y Mixteca', ...new Set(SAVINGS_TIPS_101.map(t => t.cat).filter(c => c !== 'Ahorro Formal y Mixteca'))];
+            const bar = document.getElementById('tips-category-bar');
+            if (!bar) return;
+            bar.innerHTML = cats.map(c =>
+                `<button type="button" class="filter-chip ${c === currentTipsCategory ? 'active' : ''}" onclick="setTipsCategory('${c}')">${c}</button>`
+            ).join('');
+            renderTips();
+        }
+
+        function setTipsCategory(cat) {
+            currentTipsCategory = cat;
+            initTipsSection();
+        }
+
+        function renderTips() {
+            const grid = document.getElementById('tips-grid');
+            if (!grid) return;
+            const query = (document.getElementById('tips-search').value || '').trim().toLowerCase();
+
+            const list = SAVINGS_TIPS_101.filter(t => {
+                if (currentTipsCategory !== 'Todos' && t.cat !== currentTipsCategory) return false;
+                if (query) {
+                    const text = `#${t.id} ${t.title} ${t.cat} ${t.how} ${t.example}`.toLowerCase();
+                    if (!text.includes(query)) return false;
+                }
+                return true;
+            });
+
+            document.getElementById('tips-counter').textContent = `Mostrando ${list.length} de 101 consejos`;
+
+            if (list.length === 0) {
+                grid.innerHTML = `<div class="card" style="grid-column:1/-1; text-align:center; padding:28px; color:var(--slate-500);">No se encontraron consejos con esa búsqueda.</div>`;
+                return;
+            }
+
+            grid.innerHTML = list.map(t => `
+                <div class="tip-card ${t.id === 101 ? 'featured-mixteca' : ''}">
+                    <div>
+                        <span class="tip-badge">#${t.id} • ${escapeHTML(t.cat)}</span>
+                    </div>
+                    <div class="tip-title">${escapeHTML(t.title)}</div>
+                    <div class="tip-box-how">
+                        <strong>🛠️ Cómo hacerlo:</strong> ${escapeHTML(t.how)}
+                    </div>
+                    <div class="tip-box-ex">
+                        <strong>💡 Ejemplo práctico:</strong> ${escapeHTML(t.example)}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showRandomTip() {
+            const tip = SAVINGS_TIPS_101[Math.floor(Math.random() * SAVINGS_TIPS_101.length)];
+            document.getElementById('tips-search').value = `#${tip.id}`;
+            currentTipsCategory = 'Todos';
+            initTipsSection();
+            showToast(`Consejo #${tip.id}: ${tip.title} 💡`, 'pink');
+        }
+
+        /* =========================================================================
+           11. JUEGO SOPA DE LETRAS FINANCIERA (100 NIVELES CON DIFICULTAD PROGRESIVA)
+           ========================================================================= */
+        const BASE_LEVEL_THEMES = [
+            { title: 'Primeros Pasos del Ahorro', words: ['AHORRO', 'META', 'PESO', 'SALDO'] },
+            { title: 'Adiós Gasto Hormiga', words: ['HORMIGA', 'TERMO', 'AGUA', 'CAFE'] },
+            { title: 'Presupuesto Inteligente', words: ['REGLA', 'ORDEN', 'PLAN', 'TOPE'] },
+            { title: 'Alcancía Kawaii', words: ['CERDITO', 'MONEDA', 'GUARDAR', 'FONDO'] },
+            { title: 'Compras Conscientes', words: ['LISTA', 'PRECIO', 'OFERTA', 'CALIDAD'] },
+            { title: 'Cuidado de Servicios', words: ['RECIBO', 'ENERGIA', 'CUIDAR', 'HOGAR'] },
+            { title: 'Control de Transporte', words: ['PASAJE', 'RUTA', 'CAMINAR', 'VIAJE'] },
+            { title: 'Comida Casera', words: ['COCINA', 'FRUTA', 'AVENA', 'LUNCH'] },
+            { title: 'Cero Deudas', words: ['DEUDA', 'LIBRE', 'PAGAR', 'CREDITO'] },
+            { title: 'Cajas de Ahorro y Futuro', words: ['MIXTECA', 'AHORRO', 'PROYECTO', 'FUTURO'] }
+        ];
+
+        const EXTRA_FINANCE_WORDS = [
+            'CAPITAL', 'INVERSOR', 'CONTROL', 'BALANCE', 'CUENTA', 'EFECTIVO',
+            'CARTERA', 'BANCO', 'RETIRO', 'ABONO', 'DISCIPLINA', 'HABITO',
+            'METODO', 'RECURSO', 'VALOR', 'TIEMPO', 'EMERGENCIA', 'RESPALDO',
+            'EQUILIBRIO', 'SOLVENCIA', 'ECONOMIA', 'FINANZAS', 'ACREIMEX', 'COOPERATIVA',
+            'PATRIMONIO', 'PRESUPUESTO', 'RENDIMIENTO', 'ESTABILIDAD'
+        ];
+
+        let currentGameLevel = 1;
+        let wsSize = 6;
+        let wsGrid = [];
+        let wsTargetWords = [];
+        let wsFoundWords = new Set();
+        let wsCellColors = {};
+        let isDragging = false;
+        let dragStart = null;
+        let currentSelection = [];
+
+        function getLevelConfig(lvl) {
+            const theme = BASE_LEVEL_THEMES[(lvl - 1) % BASE_LEVEL_THEMES.length];
+
+            // Escala progresiva exacta:
+            // Niveles 1-20: 6x6 horizontales y verticales
+            // Niveles 21-50: 8x8 agregando diagonales
+            // Niveles 51-80: 10x10 palabras más largas y en reversa
+            // Niveles 81-100: 12x12 reto experto en todas direcciones
+            let size = 6;
+            let diffLabel = 'Fácil • 6×6';
+            let diffClass = 'diff-easy';
+            let diffDesc = 'Niveles 1–20: tablero 6×6 con palabras horizontales y verticales.';
+            let wordCount = 3;
+            let allowedDirs = [
+                [0, 1], // horizontal derecha
+                [1, 0]  // vertical abajo
+            ];
+
+            if (lvl <= 20) {
+                size = 6;
+                diffLabel = 'Fácil • 6×6';
+                diffClass = 'diff-easy';
+                diffDesc = 'Niveles 1–20: tablero 6×6 con palabras horizontales y verticales.';
+                wordCount = lvl <= 10 ? 3 : 4;
+                allowedDirs = [[0, 1], [1, 0]];
+            } else if (lvl <= 50) {
+                size = 8;
+                diffLabel = 'Intermedio • 8×8';
+                diffClass = 'diff-med';
+                diffDesc = 'Niveles 21–50: tablero 8×8 agregando palabras en diagonal.';
+                wordCount = lvl <= 35 ? 5 : 6;
+                allowedDirs = [[0, 1], [1, 0], [1, 1], [-1, 1]];
+            } else if (lvl <= 80) {
+                size = 10;
+                diffLabel = 'Avanzado • 10×10';
+                diffClass = 'diff-hard';
+                diffDesc = 'Niveles 51–80: tablero 10×10 con palabras largas y en reversa.';
+                wordCount = lvl <= 65 ? 7 : 8;
+                allowedDirs = [[0, 1], [1, 0], [1, 1], [-1, 1], [0, -1], [-1, 0]];
+            } else {
+                size = 12;
+                diffLabel = 'Experto • 12×12';
+                diffClass = 'diff-expert';
+                diffDesc = 'Niveles 81–100: reto experto 12×12 en todas las direcciones posibles.';
+                wordCount = lvl <= 90 ? 8 : 9;
+                allowedDirs = [[0, 1], [1, 0], [1, 1], [-1, 1], [0, -1], [-1, 0], [-1, -1], [1, -1]];
+            }
+
+            const candidatePool = [...theme.words];
+            if (lvl >= 51) {
+                // Priorizar palabras más largas en niveles altos
+                for (let i = 0; i < EXTRA_FINANCE_WORDS.length; i++) {
+                    const w = EXTRA_FINANCE_WORDS[(lvl * 5 + i * 3) % EXTRA_FINANCE_WORDS.length];
+                    if (w.length >= 7 && !candidatePool.includes(w)) {
+                        candidatePool.unshift(w);
+                    }
+                }
+            }
+            for (let i = 0; i < EXTRA_FINANCE_WORDS.length; i++) {
+                const w = EXTRA_FINANCE_WORDS[(lvl * 5 + i * 3) % EXTRA_FINANCE_WORDS.length];
+                if (!candidatePool.includes(w)) {
+                    candidatePool.push(w);
+                }
+            }
+
+            const words = [];
+            for (const w of candidatePool) {
+                if (w.length <= size && words.length < wordCount) {
+                    words.push(w);
+                }
+            }
+
+            return {
+                level: lvl,
+                title: `Nivel ${lvl}: ${theme.title}`,
+                size,
+                diffLabel,
+                diffClass,
+                diffDesc,
+                allowedDirs,
+                words
+            };
+        }
+
+        function initWordSearchLevel(lvl) {
+            if (!currentUser) return;
+            currentGameLevel = Math.max(1, Math.min(100, lvl));
+            currentUser.currentLevel = currentGameLevel;
+            persistCurrentUser();
+
+            const cfg = getLevelConfig(currentGameLevel);
+            wsSize = cfg.size;
+            wsFoundWords = new Set();
+            wsCellColors = {};
+
+            document.getElementById('game-level-badge').textContent = `Nivel ${cfg.level} de 100`;
+            const diffBadge = document.getElementById('game-diff-badge');
+            diffBadge.textContent = cfg.diffLabel;
+            diffBadge.className = `difficulty-pill ${cfg.diffClass}`;
+            document.getElementById('game-level-title').textContent = cfg.title;
+            document.getElementById('game-level-desc').textContent = cfg.diffDesc;
+            document.getElementById('ws-win-box').classList.add('hidden');
+            updateGameProgressLabel();
+
+            wsGrid = Array.from({ length: wsSize }, () => Array(wsSize).fill(''));
+            const placedWords = [];
+
+            const sortedToPlace = [...cfg.words].sort((a, b) => b.length - a.length);
+
+            sortedToPlace.forEach(word => {
+                let placed = false;
+                for (let attempt = 0; attempt < 350 && !placed; attempt++) {
+                    const [dr, dc] = cfg.allowedDirs[Math.floor(Math.random() * cfg.allowedDirs.length)];
+                    const r0 = Math.floor(Math.random() * wsSize);
+                    const c0 = Math.floor(Math.random() * wsSize);
+                    const rEnd = r0 + dr * (word.length - 1);
+                    const cEnd = c0 + dc * (word.length - 1);
+
+                    if (rEnd < 0 || rEnd >= wsSize || cEnd < 0 || cEnd >= wsSize) continue;
+
+                    let ok = true;
+                    for (let i = 0; i < word.length; i++) {
+                        const cell = wsGrid[r0 + dr * i][c0 + dc * i];
+                        if (cell !== '' && cell !== word[i]) {
+                            ok = false;
+                            break;
+                        }
+                    }
+
+                    if (ok) {
+                        for (let i = 0; i < word.length; i++) {
+                            wsGrid[r0 + dr * i][c0 + dc * i] = word[i];
+                        }
+                        placed = true;
+                        placedWords.push(word);
+                    }
+                }
+            });
+
+            wsTargetWords = placedWords;
+
+            const letters = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ';
+            for (let r = 0; r < wsSize; r++) {
+                for (let c = 0; c < wsSize; c++) {
+                    if (!wsGrid[r][c]) {
+                        wsGrid[r][c] = letters[Math.floor(Math.random() * letters.length)];
+                    }
+                }
+            }
+
+            renderWordSearchBoard();
+            renderWordSearchWords();
+        }
+
+        function renderWordSearchBoard() {
+            const board = document.getElementById('ws-board');
+            if (!board) return;
+            board.style.gridTemplateColumns = `repeat(${wsSize}, 1fr)`;
+            board.innerHTML = '';
+
+            for (let r = 0; r < wsSize; r++) {
+                for (let c = 0; c < wsSize; c++) {
+                    const div = document.createElement('div');
+                    div.className = 'ws-cell';
+                    div.dataset.r = r;
+                    div.dataset.c = c;
+                    div.textContent = wsGrid[r][c];
+
+                    div.addEventListener('pointerdown', (e) => {
+                        e.preventDefault();
+                        isDragging = true;
+                        dragStart = { r, c };
+                        currentSelection = [{ r, c }];
+                        paintSelection();
+                    });
+
+                    board.appendChild(div);
+                }
+            }
+
+            board.onpointermove = (e) => {
+                if (!isDragging || !dragStart) return;
+                const el = document.elementFromPoint(e.clientX, e.clientY);
+                if (!el || !el.classList.contains('ws-cell')) return;
+                const r = parseInt(el.dataset.r, 10);
+                const c = parseInt(el.dataset.c, 10);
+                updateDragPath(r, c);
+            };
+        }
+
+        window.addEventListener('pointerup', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            checkSelectedWord();
+            dragStart = null;
+            currentSelection = [];
+            paintSelection();
+        });
+
+        function updateDragPath(rTarget, cTarget) {
+            const dr = rTarget - dragStart.r;
+            const dc = cTarget - dragStart.c;
+
+            if (dr !== 0 && dc !== 0 && Math.abs(dr) !== Math.abs(dc)) return;
+
+            const steps = Math.max(Math.abs(dr), Math.abs(dc));
+            const stepR = steps === 0 ? 0 : dr / steps;
+            const stepC = steps === 0 ? 0 : dc / steps;
+
+            const path = [];
+            for (let i = 0; i <= steps; i++) {
+                path.push({ r: dragStart.r + stepR * i, c: dragStart.c + stepC * i });
+            }
+            currentSelection = path;
+            paintSelection();
+        }
+
+        function paintSelection() {
+            const selSet = new Set(currentSelection.map(p => `${p.r},${p.c}`));
+            document.querySelectorAll('#ws-board .ws-cell').forEach(cell => {
+                const key = `${cell.dataset.r},${cell.dataset.c}`;
+                cell.classList.remove('selecting');
+                if (wsCellColors[key]) {
+                    cell.classList.add('found');
+                }
+                if (selSet.has(key)) {
+                    cell.classList.add('selecting');
+                }
+            });
+        }
+
+        function checkSelectedWord() {
+            if (currentSelection.length < 2) return;
+            const word = currentSelection.map(p => wsGrid[p.r][p.c]).join('');
+            const rev = word.split('').reverse().join('');
+
+            const matched = wsTargetWords.find(w => !wsFoundWords.has(w) && (w === word || w === rev));
+            if (matched) {
+                wsFoundWords.add(matched);
+                currentSelection.forEach(p => {
+                    wsCellColors[`${p.r},${p.c}`] = true;
+                });
+                paintSelection();
+                renderWordSearchWords();
+                showToast(`¡Encontraste "${matched}"! ✨`, 'emerald');
+
+                if (wsFoundWords.size === wsTargetWords.length) {
+                    if (!currentUser.completedLevels.includes(currentGameLevel)) {
+                        currentUser.completedLevels.push(currentGameLevel);
+                        persistCurrentUser();
+                    }
+                    updateGameProgressLabel();
+                    document.getElementById('ws-win-box').classList.remove('hidden');
+                }
+            }
+        }
+
+        function renderWordSearchWords() {
+            const list = document.getElementById('ws-word-list');
+            if (!list) return;
+            list.innerHTML = wsTargetWords.map(w => {
+                const found = wsFoundWords.has(w);
+                return `<div class="word-pill ${found ? 'found' : ''}"><span>${w}</span><span>${found ? '✓' : '🔍'}</span></div>`;
+            }).join('');
+        }
+
+        function useGameHint() {
+            const pending = wsTargetWords.find(w => !wsFoundWords.has(w));
+            if (!pending) return;
+
+            const dirs = [[0, 1], [1, 0], [1, 1], [-1, 1], [0, -1], [-1, 0], [-1, -1], [1, -1]];
+            for (let r = 0; r < wsSize; r++) {
+                for (let c = 0; c < wsSize; c++) {
+                    if (wsGrid[r][c] !== pending[0]) continue;
+                    for (const [dr, dc] of dirs) {
+                        let match = true;
+                        for (let i = 0; i < pending.length; i++) {
+                            const nr = r + dr * i;
+                            const nc = c + dc * i;
+                            if (nr < 0 || nr >= wsSize || nc < 0 || nc >= wsSize || wsGrid[nr][nc] !== pending[i]) {
+                                match = false;
+                                break;
+                            }
+                        }
+                        if (match) {
+                            const cell = document.querySelector(`#ws-board .ws-cell[data-r="${r}"][data-c="${c}"]`);
+                            if (cell) {
+                                cell.classList.add('hint');
+                                setTimeout(() => cell.classList.remove('hint'), 2200);
+                            }
+                            showToast(`Pista: "${pending}" empieza en la letra iluminada 💡`, 'pink');
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        function nextGameLevel() {
+            const next = currentGameLevel < 100 ? currentGameLevel + 1 : 1;
+            initWordSearchLevel(next);
+        }
+
+        function updateGameProgressLabel() {
+            const count = currentUser ? (currentUser.completedLevels || []).length : 0;
+            document.getElementById('game-progress-text').textContent = `Niveles completados: ${count} / 100`;
+        }
+
+        function openLevelsModal() {
+            document.getElementById('levels-modal').classList.remove('hidden');
+            const startPage = Math.floor((currentGameLevel - 1) / 25) * 25 + 1;
+            renderLevelsPage(startPage);
+        }
+        function closeLevelsModal() {
+            document.getElementById('levels-modal').classList.add('hidden');
+        }
+
+        function renderLevelsPage(start) {
+            [1, 26, 51, 76].forEach(r => {
+                const btn = document.getElementById(`range-btn-${r}`);
+                if (btn) btn.classList.toggle('active', r === start);
+            });
+
+            const grid = document.getElementById('levels-grid');
+            const doneSet = new Set(currentUser ? (currentUser.completedLevels || []) : []);
+            let html = '';
+            for (let lvl = start; lvl < start + 25; lvl++) {
+                const cls = lvl === currentGameLevel ? 'current' : (doneSet.has(lvl) ? 'completed' : '');
+                html += `<button type="button" class="lvl-btn ${cls}" onclick="selectLevelFromModal(${lvl})">Nv. ${lvl}</button>`;
+            }
+            grid.innerHTML = html;
+        }
+
+        function selectLevelFromModal(lvl) {
+            closeLevelsModal();
+            initWordSearchLevel(lvl);
+        }
+
+        /* =========================================================================
+           12. INICIALIZACIÓN INMEDIATA AL CARGAR LA PÁGINA
+           ========================================================================= */
+        function bootMoneyGo() {
+            try {
+                injectKawaiiPigs();
+                const activeEmail = safeGetItem(ACTIVE_EMAIL_KEY);
+                if (activeEmail) {
+                    const db = loadUsersDB();
+                    if (db[activeEmail]) {
+                        currentUser = JSON.parse(JSON.stringify(db[activeEmail]));
+                        openAppShell();
+                    }
+                }
+            } catch (e) {}
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', bootMoneyGo);
+        } else {
+            bootMoneyGo();
+        }
+    </script>
+</body>
+</html>
